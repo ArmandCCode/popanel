@@ -1,0 +1,80 @@
+Popanel - User's Manual EN
+__________
+
+SOMMAIRE
+
+1. Introduction
+2. Controls
+3. Tips
+4. Legal
+
+__________
+
+1. INTRODUCTION
+
+Popanel is a real-time puzzle game, inspired by the "Puzzle League" series by Nintendo.
+
+A. Basics
+
+The player is presented with a stack containing 4, 5, or 6 different colored panels, depending on the difficulty settings.
+The basic principle is to move panels to match them by lines or columns of at least 3 panels of the same color.
+To do that, the player uses a cursor, which allows the position of two adjacent panels to be swapped.
+Once panels are matched, they will disappear shortly. Empty spaces left are filled by panels over them, which react to gravity.
+Each disappeared panel gives points.
+
+B. Victory conditions
+
+The goal of the game is to score the most points in a two minutes time period.
+In multiplayer mode, the winner is the one who survived for the two minutes and/or scores the most points.
+
+C. Defeat conditions
+
+You have to react quick, because new lines of panels are added from the bottom of the stack, and its total height can't exceeed 12 panels. If a panel touches the stack ceiling, the player loses health points, and once health reaches zero, the player loses !
+
+__________
+
+2. CONTROLS
+
+A. In menus
+
+Up/Down keys : Select an option
+Left/Right keys : Change a value (if applicable)
+Enter key : Validate an option
+
+B. In game
+
+Escape key : Display the pause menu
+
+DEFAULT KEYS FOR PLAYER 1 :
+Up/Down/Left/Right keys : Move cursor
+Space bar : Swap the two blocs under the cursor
+Right Shift : Quickly rise the next line of panels
+
+DEFAULT KEYS FOR PLAYER 2 :
+W/A/S/D keys : Move cursor
+G key : Swap the two blocs under the cursor
+F key : Quickly rise the next line of panels 
+
+__________
+
+3. TIPS
+
+- Panel swapping can only be done horizontally, but it's possible to swap a panel with an empty space. Use that to make panels from the top of the stack fall to lower parts, when the stack reaches a dangerous height.
+
+- If you match more than 3 panels in one move, you will make a Combo. In that case, the stack rising will be paused, and the text of "Stack Speed" will read "STOP !" with the time in seconds before the stack starts rising again. Use that move to give you more time to think when the stack reaches a dangerous height.
+
+- If panels fall in an empty space left by a previous matching, and these panels make another match... Congratulations, you have made a Chain ! This type of move gives the most points and the stack rising will be paused for longer than an Combo.
+
+- Once you master these moves, you will probably want panels to be added quicker, to score more points. Press the quick rising key right at the start of the game to get more panels to match ! 
+
+__________
+
+4. LEGAL
+
+Popanel was developed by Armand CHRISTOPHE
+http://www.armandchristophe.com
+
+This game was developed using SDL 1.2, with the SDL_mixer, SDL_image, SDL_ttf extensions.
+http://www.libsdl.org
+
+No magical girls were harmed while developing this game.

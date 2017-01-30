@@ -1,0 +1,79 @@
+﻿Popanel - Manuel d'utilisation FR
+__________
+
+SOMMAIRE
+
+1. Présentation
+2. Commandes
+3. Astuces
+4. Mentions légales
+
+__________
+
+1. PRESENTATION
+
+Popanel est un jeu de réflexion en temps réel, inspiré du jeu "Puzzle League" de Nintendo.
+
+A. Principe
+
+Le joueur dispose d'une pile de blocs de 4, 5, ou 6 couleurs, selon le mode de difficulté choisi.
+Il faut déplacer les blocs afin de les assembler par lignes ou colonnes de trois blocs similaires ou plus.
+Pour ce faire, le joueur dispose d'un curseur qui permet d'échanger la position de deux blocs proches à l'horizontale.
+Une fois les blocs assemblés, ils disparaissent après un petit laps de temps. Les espaces vides sont remplis par les blocs du dessus, qui sont soumis à la gravité.
+Chaque bloc disparu rapporte des points.
+
+B. Conditions de victoire
+
+Le but du jeu est d'effectuer le meilleur score dans un laps de temps de deux minutes. En mode multijoueur, le gagnant est celui qui a survécu durant les deux minutes et/ou effectué le meilleur score.
+
+C. Conditions de défaite
+
+Il faut agir vite, car de nouvelles lignes de blocs se rajoutent par le bas de la pile, et elle ne peut pas dépasser 12 blocs de haut. Si un bloc touche le plafond du tableau, le joueur perd des points de vie, et une fois les points de vie descendus à zéro, c'est la défaite !
+
+__________
+
+2. COMMANDES
+
+A. Dans les menus
+
+Touches Haut/Bas : Sélectionner une option
+Touches Gauche/Droite : Modifier une valeur (si applicable)
+Touche Entrée : Valider une option
+
+B. En cours de jeu
+
+Touche Echap : Afficher le menu pause
+
+COMMANDES PAR DEFAUT DU JOUEUR 1 :
+Touches Haut/Bas/Gauche/Droite : Bouger le curseur
+Barre Espace : Echanger les deux blocs situés sous le curseur
+Touche Shift droite : Faire monter la prochaine ligne de blocs rapidement 
+
+COMMANDES PAR DEFAUT DU JOUEUR 2 :
+Touches Z/S/Q/D : Bouger le curseur
+Touche G : Echanger les deux blocs situés sous le curseur
+Touche F : Faire monter la prochaine ligne de blocs rapidement 
+
+__________
+
+3. ASTUCES
+
+- L'échange de blocs ne se fait que de manière horizontale, mais il est tout à fait possible d'échanger un bloc avec un espace vide. Servez-vous en pour faire tomber les blocs du haut de la pile vers le bas, quand la pile atteint une hauteur dangereuse.
+
+- Si vous assemblez plus de 3 blocs en un mouvement, vous effectuerez un Combo. Dans ce cas, l'ascension de la pile sera interrompue pendant une brève période, et le texte "Stack Speed" indiquera "STOP !" accompagné d'un temps en secondes avant la reprise de l'ascension. Servez-vous en quand la pile atteint une hauteur dangereuse pour vous laisser le temps de réfléchir.
+
+- Si la disparition d'un assemblage cause une chute de blocs, qui elle même effectue un autre assemblage. Bravo, vous avez réalisé une Chaîne ! Ce type de mouvement rapporte le plus de points et stoppera l'ascension de la pile pendant plus longtemps qu'un Combo.
+
+- Après avoir maitrisé ces mouvements, vous aurez probablement envie que les blocs s'ajoutent plus vite pour marquer davantage de points. Maintenez la touche de montée de la pile dès le début de la partie pour vous donner davantage de nouveaux blocs !
+
+__________
+
+4. MENTIONS LEGALES
+
+Popanel a été développé par Armand CHRISTOPHE
+http://www.armandchristophe.com
+
+Jeu développé en utilisant SDL 1.2, accompagnée des extensions SDL_mixer, SDL_image, et SDL_ttf.
+http://www.libsdl.org
+
+Aucune magical girl n'a été blessée pendant le développement de ce jeu.

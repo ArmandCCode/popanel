@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Popanel" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Popanel" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-DDEBUGMODE" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Popanel" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add directory="src" />
+			<Add directory="_extlibs-win/SDL-1.2.15/include" />
+		</Compiler>
+		<Linker>
+			<Add library="mingw32" />
+			<Add library="SDLmain" />
+			<Add library="SDL.dll" />
+			<Add library="user32" />
+			<Add library="gdi32" />
+			<Add library="winmm" />
+			<Add library="dxguid" />
+			<Add library="_extlibs-win/SDL_image-1.2.12/lib/x86/SDL_image.lib" />
+			<Add library="_extlibs-win/SDL_mixer-1.2.12/lib/x86/SDL_mixer.lib" />
+			<Add library="_extlibs-win/SDL_ttf-2.0.11/lib/x86/SDL_ttf.lib" />
+			<Add directory="_extlibs-win/SDL-1.2.15/lib" />
+			<Add directory="_extlibs-win/SDL_image-1.2.12/lib/x86" />
+			<Add directory="_extlibs-win/SDL_mixer-1.2.12/lib/x86" />
+			<Add directory="_extlibs-win/SDL_ttf-2.0.11/lib/x86" />
+		</Linker>
+		<Unit filename="src/SPEngine/SPException.cpp" />
+		<Unit filename="src/SPEngine/SPException.h" />
+		<Unit filename="src/SPEngine/spsdl/SPBaseState.cpp" />
+		<Unit filename="src/SPEngine/spsdl/SPBaseState.h" />
+		<Unit filename="src/SPEngine/spsdl/SPGameState.cpp" />
+		<Unit filename="src/SPEngine/spsdl/SPGameState.h" />
+		<Unit filename="src/SPEngine/spsdl/SPSDL.cpp" />
+		<Unit filename="src/SPEngine/spsdl/SPSDL.h" />
+		<Unit filename="src/SPEngine/spsdl/audio/SPAudioEngine.cpp" />
+		<Unit filename="src/SPEngine/spsdl/audio/SPAudioEngine.h" />
+		<Unit filename="src/SPEngine/spsdl/audio/SPSoundsMger.cpp" />
+		<Unit filename="src/SPEngine/spsdl/audio/SPSoundsMger.h" />
+		<Unit filename="src/SPEngine/spsdl/timer/SPTimer.cpp" />
+		<Unit filename="src/SPEngine/spsdl/timer/SPTimer.h" />
+		<Unit filename="src/SPEngine/spsdl/video/SPAsciiBMP.cpp" />
+		<Unit filename="src/SPEngine/spsdl/video/SPAsciiBMP.h" />
+		<Unit filename="src/SPEngine/spsdl/video/SPDisplayWindow.cpp" />
+		<Unit filename="src/SPEngine/spsdl/video/SPDisplayWindow.h" />
+		<Unit filename="src/SPEngine/spsdl/video/SPFrameLimiter.cpp" />
+		<Unit filename="src/SPEngine/spsdl/video/SPFrameLimiter.h" />
+		<Unit filename="src/SPEngine/spsdl/video/SPStringBuffer.cpp" />
+		<Unit filename="src/SPEngine/spsdl/video/SPStringBuffer.h" />
+		<Unit filename="src/SPEngine/spsdl/video/SPTTFFont.cpp" />
+		<Unit filename="src/SPEngine/spsdl/video/SPTTFFont.h" />
+		<Unit filename="src/SPEngine/spsdl/video/SPTexture.cpp" />
+		<Unit filename="src/SPEngine/spsdl/video/SPTexture.h" />
+		<Unit filename="src/SPEngine/spsdl/video/SPTextureMger.cpp" />
+		<Unit filename="src/SPEngine/spsdl/video/SPTextureMger.h" />
+		<Unit filename="src/SPEngine/sputil/SPConvertTools.h" />
+		<Unit filename="src/SPEngine/sputil/SPNumHelper.h" />
+		<Unit filename="src/game/actors/Block.cpp" />
+		<Unit filename="src/game/actors/Block.h" />
+		<Unit filename="src/game/actors/Cursor.cpp" />
+		<Unit filename="src/game/actors/Cursor.h" />
+		<Unit filename="src/game/actors/Field.cpp" />
+		<Unit filename="src/game/actors/Field.h" />
+		<Unit filename="src/game/actors/Player.cpp" />
+		<Unit filename="src/game/actors/Player.h" />
+		<Unit filename="src/game/actors/PopBlockSet.cpp" />
+		<Unit filename="src/game/actors/PopBlockSet.h" />
+		<Unit filename="src/game/consts/PanelGameConsts.h" />
+		<Unit filename="src/game/containers/Coord2D.cpp" />
+		<Unit filename="src/game/containers/Coord2D.h" />
+		<Unit filename="src/game/containers/MatchSettings.cpp" />
+		<Unit filename="src/game/containers/MatchSettings.h" />
+		<Unit filename="src/game/rules/PanelGameBehaviour.cpp" />
+		<Unit filename="src/game/rules/PanelGameBehaviour.h" />
+		<Unit filename="src/gui/FaderColor.cpp" />
+		<Unit filename="src/gui/FaderColor.h" />
+		<Unit filename="src/gui/GameEvents.cpp" />
+		<Unit filename="src/gui/GameEvents.h" />
+		<Unit filename="src/gui/KeyboardControls.cpp" />
+		<Unit filename="src/gui/KeyboardControls.h" />
+		<Unit filename="src/gui/MenuControl.cpp" />
+		<Unit filename="src/gui/MenuControl.h" />
+		<Unit filename="src/gui/MessageBox.cpp" />
+		<Unit filename="src/gui/MessageBox.h" />
+		<Unit filename="src/gui/TextScroller.cpp" />
+		<Unit filename="src/gui/TextScroller.h" />
+		<Unit filename="src/gui/consts/PanelGUIConsts.h" />
+		<Unit filename="src/gui/consts/PanelSndLoader.h" />
+		<Unit filename="src/gui/consts/PanelTexLoader.h" />
+		<Unit filename="src/main.cpp" />
+		<Unit filename="src/states/GameState.cpp" />
+		<Unit filename="src/states/GameState.h" />
+		<Unit filename="src/states/KeyConfigState.cpp" />
+		<Unit filename="src/states/KeyConfigState.h" />
+		<Unit filename="src/states/LogoState.cpp" />
+		<Unit filename="src/states/LogoState.h" />
+		<Unit filename="src/states/PanelMain.cpp" />
+		<Unit filename="src/states/PanelMain.h" />
+		<Unit filename="src/states/StateRequestObject.cpp" />
+		<Unit filename="src/states/StateRequestObject.h" />
+		<Unit filename="src/states/TitleState.cpp" />
+		<Unit filename="src/states/TitleState.h" />
+		<Unit filename="src/timers/ManualTimer.cpp" />
+		<Unit filename="src/timers/ManualTimer.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

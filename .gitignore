@@ -1,0 +1,6 @@
+#ignore these directories
+/bin/
+/obj/
+/_extlibs-win/
+#ignore dll files at root directory
+/*.dll
