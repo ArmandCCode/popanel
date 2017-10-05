@@ -104,6 +104,14 @@ bool GameState::Play(long p_Delta)
     static const int CURDIR_LEFT = 2;
     static const int CURDIR_RIGHT = 3;
 
+    this->m_SDL.input().ConvertSDLEventsToSPEvents();
+
+    if (this->m_SDL.input().IsExitEventPending())
+    {
+        this->m_stateRequest.SetDesiredState(StateRequestObject::CLOSEAPP);
+        return false;
+    }
+
     // fading out effect
     bool bCausesExitState = false;
 
@@ -163,334 +171,72 @@ bool GameState::Play(long p_Delta)
         }
     }
 
-    // Traitement d'évènements
-    SDL_Event event;
-    while (SDL_PollEvent(&event))
+
+    // Everything else depends on the status of the game
+    switch (this->GetGameStatus())
     {
-        // check for messages
-        switch (event.type)
-        {
-        // exit if the window is closed, any case
-        case SDL_QUIT:
-            this->m_stateRequest.SetDesiredState(StateRequestObject::CLOSEAPP);
-            return false;
-            break;
-        default:
-            // Everything else depends on the status of the game
-            switch (this->GetGameStatus())
+        case GameState::GAME_FADEIN:
+            // No action to take during fading
+        break;
+
+        case GameState::GAME_INTRO:
             {
-                case GameState::GAME_FADEIN:
+                SPEvent event;
 
-                break;
-
-                case GameState::GAME_INTRO:
+                while(this->m_SDL.input().SPPollEvent(event))
+                {
                     // On peut faire pause durant l'intro
                     // Quand on fait pause pendant l'intro, le timer de l'intro n'est pas écoulé
-                    switch (event.type) {
-                    case SDL_KEYDOWN:
-                        if (event.key.keysym.sym == m_Controls.p1_Pause || event.key.keysym.sym == m_Controls.p2_Pause || event.key.keysym.sym == m_Controls.m_Cancel)
-                        {
-                            this->SetGameStatus(GameState::GAME_PAUSED);
-                            this->m_TempStatusTimer.PauseTimer();
-                        }
-                    break;
+                    if (event.IsPressEvent() && (event.GetActionNumber() == C_Actions::PAUSE || event.GetActionNumber() == C_Actions::MENUCANCEL ) ) // TODO:Executed two times. Give priority to one player or find something else...
+                    {
+                        this->SetGameStatus(GameState::GAME_PAUSED); // Mettre la musique sur pause
+                        m_SDL.audio().PauseCurrentMusic();
+                        this->PauseAnimationTimers();
                     }
+                }
+            }
 
-                break;
+        break;
 
-                case GameState::GAME_PAUSED:
-                    // Quand on fait pause pendant l'intro, le timer de l'intro n'est pas écoulé
-                    switch (event.type) {
-                    case SDL_KEYDOWN:
+        case GameState::GAME_PAUSED:
+            {
+                SPEvent event;
 
-                        if (event.key.keysym.sym == m_Controls.m_Up) {
-                            m_SDL.audio().PlaySample(this->m_sndList.GetSample(GameSnd::SPL_CURSORMOVE), 1);
-                            this->m_PauseMenu.PrevEntry();
-                        }
-                        else if (event.key.keysym.sym == m_Controls.m_Down) {
-                            m_SDL.audio().PlaySample(this->m_sndList.GetSample(GameSnd::SPL_CURSORMOVE), 1);
-                            this->m_PauseMenu.NextEntry();
-                        }
-                        else if (event.key.keysym.sym == m_Controls.m_Validate) {
-                            m_SDL.audio().PlaySample(this->m_sndList.GetSample(GameSnd::SPL_VALIDATE), 1);
-                            switch (this->m_PauseMenu.GetSelectedEntry())
-                            {
-                                case GameState::MENU_CONTINUE:
-                                {
-                                    // Retourner au statut de jeu précédent la pause
-                                    this->GoToPreviousGameStatus();
-                                    this->ResumeAnimationTimers();
-
-                                    if ( this->GetPreviousGameStatus() == GameState::GAME_INTRO )
-                                    {
-                                        // On a fait pause pendant l'intro
-                                        this->m_TempStatusTimer.ResumeTimer();
-                                    }
-                                    else
-                                    {
-                                        m_SDL.audio().ResumeCurrentMusic(); // Relancer la musique
-                                    }
-
-                                }
-                                break;
-
-                                case GameState::MENU_QUIT:
-                                    this->m_stateRequest.SetDesiredState(StateRequestObject::TITLE);
-                                    bCausesExitState = true;
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                    break;
-
-                case GameState::GAME_PLAYING:
-
-                    switch (event.type) {
-                    case SDL_KEYDOWN:
-
-                        // Pause button for everyone
-                        if (event.key.keysym.sym == m_Controls.p1_Pause || event.key.keysym.sym == m_Controls.p2_Pause || event.key.keysym.sym == m_Controls.m_Cancel)
+                while(this->m_SDL.input().SPPollEvent(event))
+                {
+                    if (event.IsPressEvent())
+                    {
+                        switch(event.GetActionNumber())
                         {
-                            this->SetGameStatus(GameState::GAME_PAUSED); // Mettre la musique sur pause
-                            m_SDL.audio().PauseCurrentMusic();
-                            this->PauseAnimationTimers();
-                        }
-
-                        // Player 1 Controls
-                        if (m_Player.size() >= 1)
-                        {
-                            if (event.key.keysym.sym == m_Controls.p1_Up)
-                            {
-                                if ( this->m_PanelGame.RequestCursorMoveUp( this->m_Player[0] ) )
-                                {
-                                    this->m_CurDir[0] = CURDIR_UP;
-                                    this->m_CurMoveTimer[0].SetLength(200);
-                                    this->m_CurMoveTimer[0].Restart();
-                                    // son
-                                    this->m_ThisFrameEvent.AddEvent(GameEvents::EVT_CURSORMOVE);
-                                }
-                            }
-                            else if (event.key.keysym.sym == m_Controls.p1_Down)
-                            {
-                                if (this->m_PanelGame.RequestCursorMoveDown( this->m_Player[0] ))
-                                {
-                                    this->m_CurDir[0] = CURDIR_DOWN;
-                                    this->m_CurMoveTimer[0].SetLength(200);
-                                    this->m_CurMoveTimer[0].Restart();
-                                    // son
-                                    this->m_ThisFrameEvent.AddEvent(GameEvents::EVT_CURSORMOVE);
-                                }
-                            }
-                            else if (event.key.keysym.sym == m_Controls.p1_Left)
-                            {
-                                if (this->m_PanelGame.RequestCursorMoveLeft( this->m_Player[0] ))
-                                {
-                                    this->m_CurDir[0] = CURDIR_LEFT;
-                                    this->m_CurMoveTimer[0].SetLength(200);
-                                    this->m_CurMoveTimer[0].Restart();
-                                    // son
-                                    this->m_ThisFrameEvent.AddEvent(GameEvents::EVT_CURSORMOVE);
-                                }
-                            }
-                            else if (event.key.keysym.sym == m_Controls.p1_Right)
-                            {
-                                if (this->m_PanelGame.RequestCursorMoveRight( this->m_Player[0] ))
-                                {
-                                    this->m_CurDir[0] = CURDIR_RIGHT;
-                                    this->m_CurMoveTimer[0].SetLength(200);
-                                    this->m_CurMoveTimer[0].Restart();
-                                    // son
-                                    this->m_ThisFrameEvent.AddEvent(GameEvents::EVT_CURSORMOVE);
-                                }
-                            }
-                            else if (event.key.keysym.sym == m_Controls.p1_Swap)
-                            {
-                                if ( this->m_Countdown.IsTimerEnd() )
-                                {
-                                    this->m_PanelGame.RequestSwapping( this->m_Player[0] , this->m_ThisFrameEvent);
-                                }
-                            }
-                            else if (event.key.keysym.sym == m_Controls.p1_Raise)
-                            {
-                                this->m_PanelGame.RequestFieldRise( this->m_Player[0] );
-                            }
-                        }
-
-                        // Player 2 Controls
-                        if (m_Player.size() >= 2)
-                        {
-                            if (event.key.keysym.sym == m_Controls.p2_Up)
-                            {
-                                if ( this->m_PanelGame.RequestCursorMoveUp( this->m_Player[1] ) )
-                                {
-                                    this->m_CurDir[1] = CURDIR_UP;
-                                    this->m_CurMoveTimer[1].SetLength(200);
-                                    this->m_CurMoveTimer[1].Restart();
-                                    // son
-                                    this->m_ThisFrameEvent.AddEvent(GameEvents::EVT_CURSORMOVE);
-                                }
-                            }
-                            else if (event.key.keysym.sym == m_Controls.p2_Down)
-                            {
-                                if (this->m_PanelGame.RequestCursorMoveDown( this->m_Player[1] ))
-                                {
-                                    this->m_CurDir[1] = CURDIR_DOWN;
-                                    this->m_CurMoveTimer[1].SetLength(200);
-                                    this->m_CurMoveTimer[1].Restart();
-                                    // son
-                                    this->m_ThisFrameEvent.AddEvent(GameEvents::EVT_CURSORMOVE);
-                                }
-                            }
-                            else if (event.key.keysym.sym == m_Controls.p2_Left)
-                            {
-                                if (this->m_PanelGame.RequestCursorMoveLeft( this->m_Player[1] ))
-                                {
-                                    this->m_CurDir[1] = CURDIR_LEFT;
-                                    this->m_CurMoveTimer[1].SetLength(200);
-                                    this->m_CurMoveTimer[1].Restart();
-                                    // son
-                                    this->m_ThisFrameEvent.AddEvent(GameEvents::EVT_CURSORMOVE);
-                                }
-                            }
-                            else if (event.key.keysym.sym == m_Controls.p2_Right)
-                            {
-                                if (this->m_PanelGame.RequestCursorMoveRight( this->m_Player[1] ))
-                                {
-                                    this->m_CurDir[1] = CURDIR_RIGHT;
-                                    this->m_CurMoveTimer[1].SetLength(200);
-                                    this->m_CurMoveTimer[1].Restart();
-                                    // son
-                                    this->m_ThisFrameEvent.AddEvent(GameEvents::EVT_CURSORMOVE);
-                                }
-                            }
-                            else if (event.key.keysym.sym == m_Controls.p2_Swap)
-                            {
-                                if ( this->m_Countdown.IsTimerEnd() )
-                                {
-                                    this->m_PanelGame.RequestSwapping( this->m_Player[1] , this->m_ThisFrameEvent);
-                                }
-                            }
-                            else if (event.key.keysym.sym == m_Controls.p2_Raise)
-                            {
-                                this->m_PanelGame.RequestFieldRise( this->m_Player[1] );
-                            }
-                        }
-
-                    break;
-                    case SDL_KEYUP:
-
-                        // Player 1 Controls
-                        if (m_Player.size() >= 1)
-                        {
-                            if (event.key.keysym.sym == m_Controls.p1_Up)
-                            {
-                                if (this->m_CurDir[0] == CURDIR_UP)
-                                {
-                                    this->m_CurMoveTimer[0].Restart(0);
-                                    this->m_CurDir[0] = -1;
-                                }
-                            }
-                            else if (event.key.keysym.sym == m_Controls.p1_Down)
-                            {
-                                if (this->m_CurDir[0] == CURDIR_DOWN)
-                                {
-                                    this->m_CurMoveTimer[0].Restart(0);
-                                    this->m_CurDir[0] = -1;
-                                }
-                            }
-                            else if (event.key.keysym.sym == m_Controls.p1_Left)
-                            {
-                                if (this->m_CurDir[0] == CURDIR_LEFT)
-                                {
-                                    this->m_CurMoveTimer[0].Restart(0);
-                                    this->m_CurDir[0] = -1;
-                                }
-                            }
-                            else if (event.key.keysym.sym == m_Controls.p1_Right)
-                            {
-                                if (this->m_CurDir[0] == CURDIR_RIGHT)
-                                {
-                                    this->m_CurMoveTimer[0].Restart(0);
-                                    this->m_CurDir[0] = -1;
-                                }
-                            }
-                            else if (event.key.keysym.sym == m_Controls.p1_Raise)
-                            {
-                                this->m_PanelGame.RequestFieldRiseStop( this->m_Player[0] );
-                            }
-                        }
-
-                        // Player 2 Controls
-                        if (m_Player.size() >= 2)
-                        {
-                            if (event.key.keysym.sym == m_Controls.p2_Up)
-                            {
-                                if (this->m_CurDir[1] == CURDIR_UP)
-                                {
-                                    this->m_CurMoveTimer[1].Restart(0);
-                                    this->m_CurDir[1] = -1;
-                                }
-                            }
-                            else if (event.key.keysym.sym == m_Controls.p2_Down)
-                            {
-                                if (this->m_CurDir[1] == CURDIR_DOWN)
-                                {
-                                    this->m_CurMoveTimer[1].Restart(0);
-                                    this->m_CurDir[1] = -1;
-                                }
-                            }
-                            else if (event.key.keysym.sym == m_Controls.p2_Left)
-                            {
-                                if (this->m_CurDir[1] == CURDIR_LEFT)
-                                {
-                                    this->m_CurMoveTimer[1].Restart(0);
-                                    this->m_CurDir[1] = -1;
-                                }
-                            }
-                            else if (event.key.keysym.sym == m_Controls.p2_Right)
-                            {
-                                if (this->m_CurDir[1] == CURDIR_RIGHT)
-                                {
-                                    this->m_CurMoveTimer[1].Restart(0);
-                                    this->m_CurDir[1] = -1;
-                                }
-                            }
-                            else if (event.key.keysym.sym == m_Controls.p2_Raise)
-                            {
-                                this->m_PanelGame.RequestFieldRiseStop( this->m_Player[1] );
-                            }
-                        }
-
-                    break;
-                    }
-                break;
-
-                case GameState::GAME_FINISHED:
-                    // Définition du gagnant
-                break;
-
-                case GameState::GAME_OUTRO:
-                    // Contrôle du menu
-                    switch (event.type) {
-                        case SDL_KEYDOWN:
-
-                            if (event.key.keysym.sym == m_Controls.m_Up) {
+                            case C_Actions::MENUUP:
                                 m_SDL.audio().PlaySample(this->m_sndList.GetSample(GameSnd::SPL_CURSORMOVE), 1);
                                 this->m_PauseMenu.PrevEntry();
-                            }
-                            else if (event.key.keysym.sym == m_Controls.m_Down) {
+                                break;
+                            case C_Actions::MENUDOWN:
                                 m_SDL.audio().PlaySample(this->m_sndList.GetSample(GameSnd::SPL_CURSORMOVE), 1);
                                 this->m_PauseMenu.NextEntry();
-                            }
-                            else if (event.key.keysym.sym == m_Controls.m_Validate) {
+                                break;
+                            case C_Actions::MENUVALIDATE:
                                 m_SDL.audio().PlaySample(this->m_sndList.GetSample(GameSnd::SPL_VALIDATE), 1);
-
                                 switch (this->m_PauseMenu.GetSelectedEntry())
                                 {
                                     case GameState::MENU_CONTINUE:
-                                        this->m_stateRequest.SetDesiredState(StateRequestObject::GAME);
-                                        bCausesExitState = true;
+                                    {
+                                        // Retourner au statut de jeu précédent la pause
+                                        this->GoToPreviousGameStatus();
+                                        this->ResumeAnimationTimers();
+
+                                        if ( this->GetPreviousGameStatus() == GameState::GAME_INTRO )
+                                        {
+                                            // On a fait pause pendant l'intro
+                                            this->m_TempStatusTimer.ResumeTimer();
+                                        }
+                                        else
+                                        {
+                                            m_SDL.audio().ResumeCurrentMusic(); // Relancer la musique
+                                        }
+
+                                    }
                                     break;
 
                                     case GameState::MENU_QUIT:
@@ -499,20 +245,194 @@ bool GameState::Play(long p_Delta)
                                     break;
                                 }
                                 break;
-                            }
-
-                        break;
+                            case C_Actions::MENUCANCEL:
+                            case C_Actions::PAUSE:
+                                this->m_PauseMenu.SelectEntry(GameState::MENU_CONTINUE);
+                                break;
+                        }
                     }
-
-                break;
-
-                case GameState::GAME_FADEOUT:
-                    // Pas de contrôle durant le fondu
-                break;
-
+                }
             }
-        }
-    } // while PollEvent
+            break;
+
+        case GameState::GAME_PLAYING:
+            {
+                SPEvent event;
+
+                while(this->m_SDL.input().SPPollEvent(event))
+                {
+                    if (event.IsPressEvent() && (event.GetPlayerNumber() <= m_Player.size()) ) // Key Down + filter out non active players
+                    {
+                        int playerArrayId = event.GetPlayerNumber() - 1;
+                        switch(event.GetActionNumber())
+                        {
+                            case C_Actions::PAUSE:
+                            case C_Actions::MENUCANCEL:
+                                // Pause action gets priority
+                                this->SetGameStatus(GameState::GAME_PAUSED); // Mettre la musique sur pause
+                                m_SDL.audio().PauseCurrentMusic();
+                                this->PauseAnimationTimers();
+                                break;
+                            case C_Actions::UP:
+                                if ( this->m_PanelGame.RequestCursorMoveUp( this->m_Player[playerArrayId] ) )
+                                {
+                                    this->m_CurDir[playerArrayId] = CURDIR_UP;
+                                    this->m_CurMoveTimer[playerArrayId].SetLength(200);
+                                    this->m_CurMoveTimer[playerArrayId].Restart();
+                                    // son
+                                    this->m_ThisFrameEvent.AddEvent(GameEvents::EVT_CURSORMOVE);
+                                }
+                                break;
+                            case C_Actions::DOWN:
+                                if (this->m_PanelGame.RequestCursorMoveDown( this->m_Player[playerArrayId] ))
+                                {
+                                    this->m_CurDir[playerArrayId] = CURDIR_DOWN;
+                                    this->m_CurMoveTimer[playerArrayId].SetLength(200);
+                                    this->m_CurMoveTimer[playerArrayId].Restart();
+                                    // son
+                                    this->m_ThisFrameEvent.AddEvent(GameEvents::EVT_CURSORMOVE);
+                                }
+                                break;
+                            case C_Actions::LEFT:
+                                if (this->m_PanelGame.RequestCursorMoveLeft( this->m_Player[playerArrayId] ))
+                                {
+                                    this->m_CurDir[playerArrayId] = CURDIR_LEFT;
+                                    this->m_CurMoveTimer[playerArrayId].SetLength(200);
+                                    this->m_CurMoveTimer[playerArrayId].Restart();
+                                    // son
+                                    this->m_ThisFrameEvent.AddEvent(GameEvents::EVT_CURSORMOVE);
+                                }
+                                break;
+                            case C_Actions::RIGHT:
+                                if (this->m_PanelGame.RequestCursorMoveRight( this->m_Player[playerArrayId] ))
+                                {
+                                    this->m_CurDir[playerArrayId] = CURDIR_RIGHT;
+                                    this->m_CurMoveTimer[playerArrayId].SetLength(200);
+                                    this->m_CurMoveTimer[playerArrayId].Restart();
+                                    // son
+                                    this->m_ThisFrameEvent.AddEvent(GameEvents::EVT_CURSORMOVE);
+                                }
+                                break;
+                            case C_Actions::SWAP:
+                                if ( this->m_Countdown.IsTimerEnd() )
+                                {
+                                    this->m_PanelGame.RequestSwapping( this->m_Player[playerArrayId] , this->m_ThisFrameEvent);
+                                }
+                                break;
+                            case C_Actions::RAISE:
+                                this->m_PanelGame.RequestFieldRise( this->m_Player[playerArrayId] );
+                                break;
+                        }
+                    }
+                    else // Key Up
+                    {
+                        int playerArrayId = event.GetPlayerNumber() - 1;
+                        switch(event.GetActionNumber())
+                        {
+                            case C_Actions::UP:
+                                if (this->m_CurDir[playerArrayId] == CURDIR_UP)
+                                {
+                                    this->m_CurMoveTimer[playerArrayId].Restart(0);
+                                    this->m_CurDir[playerArrayId] = -1;
+                                }
+                                break;
+                            case C_Actions::DOWN:
+                                if (this->m_CurDir[playerArrayId] == CURDIR_DOWN)
+                                {
+                                    this->m_CurMoveTimer[playerArrayId].Restart(0);
+                                    this->m_CurDir[playerArrayId] = -1;
+                                }
+                                break;
+                            case C_Actions::LEFT:
+                                if (this->m_CurDir[playerArrayId] == CURDIR_LEFT)
+                                {
+                                    this->m_CurMoveTimer[playerArrayId].Restart(0);
+                                    this->m_CurDir[playerArrayId] = -1;
+                                }
+                                break;
+                            case C_Actions::RIGHT:
+                                if (this->m_CurDir[playerArrayId] == CURDIR_RIGHT)
+                                {
+                                    this->m_CurMoveTimer[playerArrayId].Restart(0);
+                                    this->m_CurDir[playerArrayId] = -1;
+                                }
+                                break;
+                            case C_Actions::RAISE:
+                                this->m_PanelGame.RequestFieldRiseStop( this->m_Player[0] );
+                                break;
+                        }
+                    }
+                }
+            }
+
+        break;
+
+        case GameState::GAME_FINISHED:
+            // Définition du gagnant
+        break;
+
+        case GameState::GAME_OUTRO:
+            {
+                SPEvent event;
+
+                while(this->m_SDL.input().SPPollEvent(event))
+                {
+                    if (event.IsPressEvent())
+                    {
+                        switch(event.GetActionNumber())
+                        {
+                            case C_Actions::MENUUP:
+                                m_SDL.audio().PlaySample(this->m_sndList.GetSample(GameSnd::SPL_CURSORMOVE), 1);
+                                this->m_PauseMenu.PrevEntry();
+                                break;
+                            case C_Actions::MENUDOWN:
+                                m_SDL.audio().PlaySample(this->m_sndList.GetSample(GameSnd::SPL_CURSORMOVE), 1);
+                                this->m_PauseMenu.NextEntry();
+                                break;
+                            case C_Actions::MENUVALIDATE:
+                                m_SDL.audio().PlaySample(this->m_sndList.GetSample(GameSnd::SPL_VALIDATE), 1);
+                                switch (this->m_PauseMenu.GetSelectedEntry())
+                                {
+                                    case GameState::MENU_CONTINUE:
+                                    {
+                                        // Retourner au statut de jeu précédent la pause
+                                        this->GoToPreviousGameStatus();
+                                        this->ResumeAnimationTimers();
+
+                                        if ( this->GetPreviousGameStatus() == GameState::GAME_INTRO )
+                                        {
+                                            // On a fait pause pendant l'intro
+                                            this->m_TempStatusTimer.ResumeTimer();
+                                        }
+                                        else
+                                        {
+                                            m_SDL.audio().ResumeCurrentMusic(); // Relancer la musique
+                                        }
+
+                                    }
+                                    break;
+
+                                    case GameState::MENU_QUIT:
+                                        this->m_stateRequest.SetDesiredState(StateRequestObject::TITLE);
+                                        bCausesExitState = true;
+                                    break;
+                                }
+                                break;
+                            case C_Actions::MENUCANCEL:
+                            case C_Actions::PAUSE:
+                                this->m_PauseMenu.SelectEntry(GameState::MENU_QUIT);
+                                break;
+                        }
+                    }
+                }
+            }
+        break;
+
+        case GameState::GAME_FADEOUT:
+            // Pas de contrôle durant le fondu
+        break;
+
+    }
 
     if (bCausesExitState)
     {
@@ -752,7 +672,6 @@ bool GameState::Play(long p_Delta)
         m_BlockBlink = !m_BlockBlink;
         m_BlockEffect.Restart( m_BlockEffect.GetOvertime() );
     }
-
 
 
     return true;

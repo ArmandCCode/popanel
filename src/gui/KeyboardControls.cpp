@@ -1,5 +1,53 @@
 #include "KeyboardControls.h"
 
+void SetDictionaryFromControls(SPInputMger& p_InputMgr, KeyboardControls& p_Ctrls)
+{
+    // General menu controls
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::MENUUP, 0, p_Ctrls.m_Up);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::MENUDOWN, 0, p_Ctrls.m_Down);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::MENULEFT, 0, p_Ctrls.m_Left);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::MENURIGHT, 0, p_Ctrls.m_Right);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::MENUVALIDATE, 0, p_Ctrls.m_Validate);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::MENUCANCEL, 0, p_Ctrls.m_Cancel);
+
+
+    // TODO: Gamepad implementation (conflicting keyboard keys could be an issue)
+    /*
+    // Player 1 and 2 can control menus via gamepads as well
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::UP, 1, p_Ctrls.m_Up);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::DOWN, 1, p_Ctrls.m_Down);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::LEFT, 1, p_Ctrls.m_Left);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::RIGHT, 1, p_Ctrls.m_Right);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::MENUVALIDATE, 1, p_Ctrls.p1_Swap);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::MENUCANCEL, 1, p_Ctrls.p1_Raise);
+
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::UP, 2, p_Ctrls.m_Up);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::DOWN, 2, p_Ctrls.m_Down);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::LEFT, 2, p_Ctrls.m_Left);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::RIGHT, 2, p_Ctrls.m_Right);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::MENUVALIDATE, 2, p_Ctrls.p2_Swap);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::MENUCANCEL, 2, p_Ctrls.p1_Raise);
+    */
+
+    // Player 1 in-game controls
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::UP, 1, p_Ctrls.p1_Up);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::DOWN, 1, p_Ctrls.p1_Down);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::LEFT, 1, p_Ctrls.p1_Left);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::RIGHT, 1, p_Ctrls.p1_Right);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::SWAP, 1, p_Ctrls.p1_Swap);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::RAISE, 1, p_Ctrls.p1_Raise);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::PAUSE, 1, p_Ctrls.p1_Pause);
+
+    // Player 2 in-game controls
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::UP, 2, p_Ctrls.p2_Up);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::DOWN, 2, p_Ctrls.p2_Down);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::LEFT, 2, p_Ctrls.p2_Left);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::RIGHT, 2, p_Ctrls.p2_Right);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::SWAP, 2, p_Ctrls.p2_Swap);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::RAISE, 2, p_Ctrls.p2_Raise);
+    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::PAUSE, 2, p_Ctrls.p2_Pause);
+}
+
 void SetDefaultControls(KeyboardControls& p_Ctrls)
 {
     // Menu controls
@@ -17,7 +65,7 @@ void SetDefaultControls(KeyboardControls& p_Ctrls)
     p_Ctrls.p1_Right = SDLK_RIGHT;
     p_Ctrls.p1_Swap = SDLK_SPACE;
     p_Ctrls.p1_Raise = SDLK_RSHIFT;
-    p_Ctrls.p1_Pause = SDLK_ESCAPE;
+    p_Ctrls.p1_Pause = SDLK_BACKSPACE;
 
     // Player 2 controls
     p_Ctrls.p2_Up = SDLK_w;
@@ -26,7 +74,7 @@ void SetDefaultControls(KeyboardControls& p_Ctrls)
     p_Ctrls.p2_Right = SDLK_d;
     p_Ctrls.p2_Swap = SDLK_g;
     p_Ctrls.p2_Raise = SDLK_f;
-    p_Ctrls.p2_Pause = SDLK_ESCAPE;
+    p_Ctrls.p2_Pause = SDLK_TAB;
 }
 
 bool ControlsIniExist()

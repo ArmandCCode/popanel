@@ -48,6 +48,9 @@ bool PanelMain::LoadControls() // Load everything
         ControlsSaveToIni(m_Controls);
     }
 
+    // Set the action dictionary
+    SetDictionaryFromControls(m_SDL.input(), m_Controls);
+
     return true;
 }
 

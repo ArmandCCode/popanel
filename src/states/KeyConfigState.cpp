@@ -29,7 +29,7 @@ bool KeyConfigState::Play(long p_Delta)
 
     // User input
     SDL_Event event;
-    while (SDL_PollEvent(&event))
+    while (this->m_SDL.input().SDLPollEvent(&event))
     {
         // check for messages
         switch (event.type)
@@ -129,18 +129,11 @@ bool KeyConfigState::Play(long p_Delta)
                         // Exception to this rule : Escape can be affected to both pause buttons, but no other option
                         if (event.key.keysym.sym == SDLK_ESCAPE )
                         {
-                            if (this->m_MenuCtl.GetSelectedEntry() == MENU_P1KEYPAUSE || this->m_MenuCtl.GetSelectedEntry() == MENU_P2KEYPAUSE)
-                            {
-                                bCanSetKey = true;
-                            }
-                            else
-                            {
-                                m_KeyPressCountdown.Restart();
-                                this->m_MessageBox.SetLineString(0, "Escape can only be used for pausing.", m_FontMenu, C_FontProps::MENUELTFONTR, C_FontProps::MENUELTFONTG, C_FontProps::MENUELTFONTB);
-                                this->m_MessageBox.SetLineString(1, "Please press another key or wait 5 seconds.", m_FontMenu, C_FontProps::MENUELTFONTR, C_FontProps::MENUELTFONTG, C_FontProps::MENUELTFONTB);
-                                this->m_MessageBox.SetLineString(2, "---", m_FontMenu, C_FontProps::MENUELTFONTR, C_FontProps::MENUELTFONTG, C_FontProps::MENUELTFONTB);
-                                this->m_MessageBox.SetLineString(3, "5", m_FontMenu, C_FontProps::MENUELTFONTR, C_FontProps::MENUELTFONTG, C_FontProps::MENUELTFONTB);
-                            }
+                            m_KeyPressCountdown.Restart();
+                            this->m_MessageBox.SetLineString(0, "Escape is already set to pausing at all times.", m_FontMenu, C_FontProps::MENUELTFONTR, C_FontProps::MENUELTFONTG, C_FontProps::MENUELTFONTB);
+                            this->m_MessageBox.SetLineString(1, "Please press another key or wait 5 seconds.", m_FontMenu, C_FontProps::MENUELTFONTR, C_FontProps::MENUELTFONTG, C_FontProps::MENUELTFONTB);
+                            this->m_MessageBox.SetLineString(2, "---", m_FontMenu, C_FontProps::MENUELTFONTR, C_FontProps::MENUELTFONTG, C_FontProps::MENUELTFONTB);
+                            this->m_MessageBox.SetLineString(3, "5", m_FontMenu, C_FontProps::MENUELTFONTR, C_FontProps::MENUELTFONTG, C_FontProps::MENUELTFONTB);
                         }
                         else
                         {
