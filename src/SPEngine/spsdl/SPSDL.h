@@ -11,6 +11,7 @@
 #include "SPEngine/SPException.h"
 #include "video/SPDisplayWindow.h"
 #include "audio/SPAudioEngine.h"
+#include "input/SPInputMger.h"
 
 class SPSDL
 {
@@ -32,10 +33,12 @@ class SPSDL
 
         SPDisplayWindow& window() { return m_Window; }
         SPAudioEngine& audio() { return m_AudioEngine; }
+        SPInputMger& input() { return m_InputMger; }
     protected:
     private:
         SPDisplayWindow m_Window;
         SPAudioEngine m_AudioEngine;
+        SPInputMger m_InputMger;
 };
 
 #endif // SPSDL_H

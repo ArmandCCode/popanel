@@ -62,6 +62,12 @@
 		<Unit filename="src/SPEngine/spsdl/audio/SPAudioEngine.h" />
 		<Unit filename="src/SPEngine/spsdl/audio/SPSoundsMger.cpp" />
 		<Unit filename="src/SPEngine/spsdl/audio/SPSoundsMger.h" />
+		<Unit filename="src/SPEngine/spsdl/input/SPEvent.cpp" />
+		<Unit filename="src/SPEngine/spsdl/input/SPEvent.h" />
+		<Unit filename="src/SPEngine/spsdl/input/SPInputDefinition.cpp" />
+		<Unit filename="src/SPEngine/spsdl/input/SPInputDefinition.h" />
+		<Unit filename="src/SPEngine/spsdl/input/SPInputMger.cpp" />
+		<Unit filename="src/SPEngine/spsdl/input/SPInputMger.h" />
 		<Unit filename="src/SPEngine/spsdl/timer/SPTimer.cpp" />
 		<Unit filename="src/SPEngine/spsdl/timer/SPTimer.h" />
 		<Unit filename="src/SPEngine/spsdl/video/SPAsciiBMP.cpp" />
@@ -109,6 +115,7 @@
 		<Unit filename="src/gui/MessageBox.h" />
 		<Unit filename="src/gui/TextScroller.cpp" />
 		<Unit filename="src/gui/TextScroller.h" />
+		<Unit filename="src/gui/consts/PanelActionsConst.h" />
 		<Unit filename="src/gui/consts/PanelGUIConsts.h" />
 		<Unit filename="src/gui/consts/PanelSndLoader.h" />
 		<Unit filename="src/gui/consts/PanelTexLoader.h" />

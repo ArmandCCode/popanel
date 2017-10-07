@@ -22,8 +22,6 @@
 #include "gui/TextScroller.h"
 #include "gui/KeyboardControls.h"
 
-#include <SDL/SDL.h>
-
 #include "game/containers/MatchSettings.h"
 
 #include <cmath>

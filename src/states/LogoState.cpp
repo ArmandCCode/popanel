@@ -25,31 +25,25 @@ LogoState::~LogoState()
 
 bool LogoState::Play(long p_Delta)
 {
+    // New event loop system
+    this->m_SDL.input().ConvertSDLEventsToSPEvents();
 
-    SDL_Event event;
-    while (SDL_PollEvent(&event))
+    if (this->m_SDL.input().IsExitEventPending())
     {
-        // check for messages
-        switch (event.type)
+        this->m_stateRequest.SetDesiredState( StateRequestObject::CLOSEAPP );
+        return false;
+    }
+    else
+    {
+        // Any key press will end the timer
+        if (this->m_SDL.input().WasKeyboardKeyPressed() )
         {
-            // exit if the window is closed
-        case SDL_QUIT:
-            this->m_stateRequest.SetDesiredState( StateRequestObject::CLOSEAPP );
-            return false;
-            break;
-        case SDL_KEYDOWN:
-            if (event.key.keysym.sym == m_Controls.m_Validate)
+            // Force end of timer
+            if (  !this->m_TimerUI.IsTimerEnd() )
             {
-                // Forcer la fin du chrono
-                if (  !this->m_TimerUI.IsTimerEnd() )
-                {
-                    m_SDL.audio().PlaySample( m_sndList.GetSample( LogoSnd::SPL_VALIDATE), 1 );
-                    this->m_TimerUI.SetLength(0);
-                }
+                m_SDL.audio().PlaySample( m_sndList.GetSample( LogoSnd::SPL_VALIDATE), 1 );
+                this->m_TimerUI.SetLength(0);
             }
-            break;
-        default:
-            break;
         }
     }
 
@@ -109,11 +103,11 @@ bool LogoState::LoadResources()
     // Texte TTF
     this->m_LogoFont.LoadFont("./fonts/BubblegumSans-Regular.otf", C_FontProps::SMALLFONTHEIGHT);
 
-    this->m_GameNameText.SetColor(128, 128, 128);
+    this->m_GameNameText.SetColor(192, 192, 192);
     this->m_GameNameText.RasterizeString("POPanel - 2016", m_LogoFont);
-    this->m_DevelopedByText.SetColor(128, 128, 128);
+    this->m_DevelopedByText.SetColor(192, 192, 192);
     this->m_DevelopedByText.RasterizeString("Game developed by Armand Christophe", m_LogoFont);
-    this->m_HyperlinkText.SetColor(128, 128, 128);
+    this->m_HyperlinkText.SetColor(192, 192, 192);
     this->m_HyperlinkText.RasterizeString("http://www.armandchristophe.com", m_LogoFont);
 
     return true;

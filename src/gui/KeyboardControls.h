@@ -4,6 +4,8 @@
 #include <SDL/SDL.h>
 #include <fstream>
 #include "SPEngine/SPException.h"
+#include "SPEngine/spsdl/input/SPInputMger.h"
+#include "gui/consts/PanelActionsConst.h"
 
 struct KeyboardControls
 {
@@ -34,6 +36,7 @@ struct KeyboardControls
         SDLKey p2_Pause;
 };
 
+void SetDictionaryFromControls(SPInputMger& p_InputMgr, KeyboardControls& p_Ctrls);
 void SetDefaultControls(KeyboardControls& p_Ctrls);
 
 bool ControlsIniExist();

@@ -30,8 +30,96 @@ bool TitleState::Play(long p_Delta)
     bool bCausesExitState = false;
 
     // Traitements évènementiels
+    this->m_SDL.input().ConvertSDLEventsToSPEvents();
+
+    // Quit the app immediately
+    if (this->m_SDL.input().IsExitEventPending())
+    {
+        this->m_stateRequest.SetDesiredState( StateRequestObject::CLOSEAPP );
+        return false;
+    }
+
+    SPEvent event;
+    while (this->m_SDL.input().SPPollEvent(event))
+    {
+        if (event.IsPressEvent())
+        {
+            switch (this->m_MenuStatus)
+            {
+                case TitleState::MENU_PRESSANYKEY:
+                    // Afficher le menu
+                    this->SetMenuStatus(TitleState::MENU_INMENU);
+                    this->m_SDL.audio().PlaySample(m_sndList.GetSample(TitleSnd::SPL_VALIDATE), 1);
+                    this->m_HelpScroll.RestartScroll();
+                break;
+
+                case TitleState::MENU_INMENU:
+                    switch (event.GetActionNumber())
+                    {
+                        case C_Actions::MENUUP:
+                            this->m_SDL.audio().PlaySample(m_sndList.GetSample(TitleSnd::SPL_CURSORMOVE), 2);
+                            this->m_MenuCtl.PrevEntry();
+                            break;
+                        case C_Actions::MENUDOWN:
+                            this->m_SDL.audio().PlaySample(m_sndList.GetSample(TitleSnd::SPL_CURSORMOVE), 2);
+                            this->m_MenuCtl.NextEntry();
+                            break;
+                        case C_Actions::MENULEFT:
+                            this->m_SDL.audio().PlaySample(m_sndList.GetSample(TitleSnd::SPL_CURSORMOVE), 2);
+                            this->m_MenuCtl.PrevValue(this->m_MenuCtl.GetSelectedEntry());
+                            break;
+                        case C_Actions::MENURIGHT:
+                            this->m_SDL.audio().PlaySample(m_sndList.GetSample(TitleSnd::SPL_CURSORMOVE), 2);
+                            this->m_MenuCtl.NextValue(this->m_MenuCtl.GetSelectedEntry());
+                            break;
+                        case C_Actions::MENUVALIDATE:
+                            this->m_SDL.audio().PlaySample(m_sndList.GetSample(TitleSnd::SPL_VALIDATE), 1);
+                            if (this->m_MenuCtl.GetSelectedEntry() == MENU_STARTGAME)
+                            {
+                                // Récupérer les valeurs du menu
+                                this->m_MatchSettings.SetNumPlayers(this->m_MenuCtl.GetValue(MENU_NUMPLAYERS));
+                                this->m_MatchSettings.SetDifficulty(this->m_MenuCtl.GetValue(MENU_DIFFICULTY));
+                                this->m_MatchSettings.SetInitialSpeed(this->m_MenuCtl.GetValue(MENU_STACKSPEED));
+
+                                this->m_MatchSettings.SetGameDuration(120000); // Pour l'instant, la durée n'est pas personnalisable : 2 minutes
+                                this->m_stateRequest.SetDesiredState( StateRequestObject::GAME );
+                                bCausesExitState = true;
+
+                            }
+                            else if (this->m_MenuCtl.GetSelectedEntry() == MENU_QUITGAME)
+                            {
+                                this->m_stateRequest.SetDesiredState( StateRequestObject::CLOSEAPP );
+                                bCausesExitState = true;
+                            }
+                            else if (this->m_MenuCtl.GetSelectedEntry() == MENU_KEYCONFIG)
+                            {
+                                this->m_stateRequest.SetDesiredState( StateRequestObject::KEYCONFIG );
+                                bCausesExitState = true;
+                            }
+                            else
+                            {
+                                this->m_MenuCtl.SelectEntry(MENU_STARTGAME);
+                            }
+                            break;
+                        case C_Actions::MENUCANCEL:
+                            this->m_SDL.audio().PlaySample(m_sndList.GetSample(TitleSnd::SPL_VALIDATE), 1);
+                            this->m_MenuCtl.SelectEntry(MENU_QUITGAME);
+                            break;
+                    }
+
+                break;
+                default:
+                    // Rien a faire pendant les transitions
+
+                break;
+            }
+        }
+    }
+
+
+    /*
     SDL_Event event;
-    while (SDL_PollEvent(&event))
+    while (this->m_SDL.input().SDLPollEvent(&event))
     {
         // check for messages
         switch (event.type)
@@ -113,7 +201,7 @@ bool TitleState::Play(long p_Delta)
         default:
             break;
         }
-    }
+    } */
 
     if (bCausesExitState)
     {
