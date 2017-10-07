@@ -27,6 +27,7 @@ class SPInputMger
 
         // Creating action dictionnary
         void AddSDLKeyboardInputToActionDictionnary(int p_DesiredAction, int p_AssignedPlayerNumber, SDLKey p_DesiredKey);
+        void ResetActionDictionnary();
 
         // Processing SPEvents, needs to be manually called
         void ConvertSDLEventsToSPEvents();

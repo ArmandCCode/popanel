@@ -27,6 +27,10 @@ void SPInputMger::AddSDLKeyboardInputToActionDictionnary(int p_DesiredAction, in
     this->m_InputDictionnary.push_back(newDef);
 }
 
+void SPInputMger::ResetActionDictionnary()
+{
+    this->m_InputDictionnary.clear();
+}
 
 void SPInputMger::ConvertSDLEventsToSPEvents()
 {

@@ -2,6 +2,8 @@
 
 void SetDictionaryFromControls(SPInputMger& p_InputMgr, KeyboardControls& p_Ctrls)
 {
+    p_InputMgr.ResetActionDictionnary();
+
     // General menu controls
     p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::MENUUP, 0, p_Ctrls.m_Up);
     p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::MENUDOWN, 0, p_Ctrls.m_Down);

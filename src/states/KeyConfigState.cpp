@@ -29,6 +29,7 @@ bool KeyConfigState::Play(long p_Delta)
 
     // User input
     SDL_Event event;
+    // Use normal SDL event loop, because we want to capture the pressed key
     while (this->m_SDL.input().SDLPollEvent(&event))
     {
         // check for messages
@@ -92,6 +93,9 @@ bool KeyConfigState::Play(long p_Delta)
                             // Save in config file
                             ControlsSaveToIni(m_Controls);
 
+                            // Affect new controls to action dictionary
+                            SetDictionaryFromControls(m_SDL.input(), m_Controls);
+
                             // Go back to menu
                             this->m_stateRequest.SetDesiredState( StateRequestObject::TITLE );
                             bCausesExitState = true;
@@ -101,6 +105,8 @@ bool KeyConfigState::Play(long p_Delta)
                             // Reset contents of config file
                             SetDefaultControls(m_Controls);
                             ControlsSaveToIni(m_Controls);
+                            // Affect new controls to action dictionary
+                            SetDictionaryFromControls(m_SDL.input(), m_Controls);
                             // This will cause the state to reload with the default values
                             this->m_stateRequest.SetDesiredState( StateRequestObject::KEYCONFIG );
                             bCausesExitState = true;
