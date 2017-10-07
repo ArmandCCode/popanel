@@ -12,25 +12,6 @@ void SetDictionaryFromControls(SPInputMger& p_InputMgr, KeyboardControls& p_Ctrl
     p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::MENUVALIDATE, 0, p_Ctrls.m_Validate);
     p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::MENUCANCEL, 0, p_Ctrls.m_Cancel);
 
-
-    // TODO: Gamepad implementation (conflicting keyboard keys could be an issue)
-    /*
-    // Player 1 and 2 can control menus via gamepads as well
-    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::UP, 1, p_Ctrls.m_Up);
-    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::DOWN, 1, p_Ctrls.m_Down);
-    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::LEFT, 1, p_Ctrls.m_Left);
-    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::RIGHT, 1, p_Ctrls.m_Right);
-    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::MENUVALIDATE, 1, p_Ctrls.p1_Swap);
-    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::MENUCANCEL, 1, p_Ctrls.p1_Raise);
-
-    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::UP, 2, p_Ctrls.m_Up);
-    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::DOWN, 2, p_Ctrls.m_Down);
-    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::LEFT, 2, p_Ctrls.m_Left);
-    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::RIGHT, 2, p_Ctrls.m_Right);
-    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::MENUVALIDATE, 2, p_Ctrls.p2_Swap);
-    p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::MENUCANCEL, 2, p_Ctrls.p1_Raise);
-    */
-
     // Player 1 in-game controls
     p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::UP, 1, p_Ctrls.p1_Up);
     p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::DOWN, 1, p_Ctrls.p1_Down);
