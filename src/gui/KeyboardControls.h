@@ -37,6 +37,7 @@ struct KeyboardControls
 };
 
 void SetDictionaryFromControls(SPInputMger& p_InputMgr, KeyboardControls& p_Ctrls);
+void SetDictionnaryAsXboxGamepad(SPInputMger& p_InputMgr, long p_PlayerNumber, long p_GamepadIndex);
 void SetDefaultControls(KeyboardControls& p_Ctrls);
 
 bool ControlsIniExist();
