@@ -51,6 +51,21 @@ bool PanelMain::LoadControls() // Load everything
     // Set the action dictionary
     SetDictionaryFromControls(m_SDL.input(), m_Controls);
 
+
+    // TODO: This will need serious rework... Here we just assume that the first connected is an xbox gamepad
+    if (m_SDL.input().GetNumberOfGamepads() > 0)
+    {
+        m_SDL.input().OpenAllAvailableGamepads();
+        if (m_SDL.input().GetNumberOfGamepads() >= 1)
+        {
+            SetDictionnaryAsXboxGamepad(m_SDL.input(), 1, 0);
+        }
+        if (m_SDL.input().GetNumberOfGamepads() >= 2)
+        {
+            SetDictionnaryAsXboxGamepad(m_SDL.input(), 2, 1);
+        }
+    }
+
     return true;
 }
 

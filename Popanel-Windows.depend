@@ -1,0 +1,614 @@
+# depslib dependency file v1.0
+1506546126 source:c:\users\armand\documents\code\c\popanel\src\game\actors\block.cpp
+	"Block.h"
+
+1506546126 c:\users\armand\documents\code\c\popanel\src\game\actors\block.h
+	"timers/ManualTimer.h"
+
+1506546127 c:\users\armand\documents\code\c\popanel\src\timers\manualtimer.h
+	<iostream>
+	<cmath>
+
+1506546126 source:c:\users\armand\documents\code\c\popanel\src\game\actors\cursor.cpp
+	"Cursor.h"
+
+1506546126 c:\users\armand\documents\code\c\popanel\src\game\actors\cursor.h
+
+1506546126 source:c:\users\armand\documents\code\c\popanel\src\game\actors\field.cpp
+	"Field.h"
+
+1506546126 c:\users\armand\documents\code\c\popanel\src\game\actors\field.h
+	<vector>
+	"Block.h"
+	"Cursor.h"
+	"SPEngine/SPException.h"
+	"SPEngine/sputil/SPNumHelper.h"
+	"game/consts/PanelGameConsts.h"
+
+1506546126 c:\users\armand\documents\code\c\popanel\src\spengine\spexception.h
+	<stdexcept>
+	<string>
+
+1506546126 c:\users\armand\documents\code\c\popanel\src\spengine\sputil\spnumhelper.h
+	<cstdlib>
+	<vector>
+
+1506546126 c:\users\armand\documents\code\c\popanel\src\game\consts\panelgameconsts.h
+
+1506546126 source:c:\users\armand\documents\code\c\popanel\src\game\actors\player.cpp
+	"Player.h"
+
+1506546126 c:\users\armand\documents\code\c\popanel\src\game\actors\player.h
+	"Cursor.h"
+	"Field.h"
+	"PopBlockSet.h"
+	"timers/ManualTimer.h"
+	"game/consts/PanelGameConsts.h"
+
+1506546126 c:\users\armand\documents\code\c\popanel\src\game\actors\popblockset.h
+	<vector>
+	"timers/ManualTimer.h"
+	"game/containers/Coord2D.h"
+	"SPEngine/SPException.h"
+
+1506546126 c:\users\armand\documents\code\c\popanel\src\game\containers\coord2d.h
+
+1506546126 source:c:\users\armand\documents\code\c\popanel\src\game\actors\popblockset.cpp
+	"PopBlockSet.h"
+
+1506546126 source:c:\users\armand\documents\code\c\popanel\src\game\containers\coord2d.cpp
+	"Coord2D.h"
+
+1506546126 source:c:\users\armand\documents\code\c\popanel\src\game\containers\matchsettings.cpp
+	"MatchSettings.h"
+
+1506546126 c:\users\armand\documents\code\c\popanel\src\game\containers\matchsettings.h
+	<vector>
+	"SPEngine/sputil/SPNumHelper.h"
+	"game/actors/Player.h"
+
+1506546127 source:c:\users\armand\documents\code\c\popanel\src\game\rules\panelgamebehaviour.cpp
+	"PanelGameBehaviour.h"
+
+1506546127 c:\users\armand\documents\code\c\popanel\src\game\rules\panelgamebehaviour.h
+	<vector>
+	"game/actors/Player.h"
+	"gui/GameEvents.h"
+	"game/containers/MatchSettings.h"
+	<cmath>
+
+1506546127 c:\users\armand\documents\code\c\popanel\src\gui\gameevents.h
+	<queue>
+	"SPEngine/SPException.h"
+
+1506546127 source:c:\users\armand\documents\code\c\popanel\src\gui\fadercolor.cpp
+	"FaderColor.h"
+
+1506546127 c:\users\armand\documents\code\c\popanel\src\gui\fadercolor.h
+	"SPEngine/spsdl/video/SPDisplayWindow.h"
+	"SPEngine/spsdl/timer/SPTimer.h"
+
+1506546126 c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\video\spdisplaywindow.h
+	<iostream>
+	<string>
+	<SDL/SDL.h>
+	"SPFrameLimiter.h"
+	"SPEngine/sputil/SPConvertTools.h"
+
+1325742239 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl.h
+	"SDL_main.h"
+	"SDL_stdinc.h"
+	"SDL_audio.h"
+	"SDL_cdrom.h"
+	"SDL_cpuinfo.h"
+	"SDL_endian.h"
+	"SDL_error.h"
+	"SDL_events.h"
+	"SDL_loadso.h"
+	"SDL_mutex.h"
+	"SDL_rwops.h"
+	"SDL_thread.h"
+	"SDL_timer.h"
+	"SDL_video.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325742239 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_main.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325742239 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_stdinc.h
+	"SDL_config.h"
+	<sys/types.h>
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<stdarg.h>
+	<stdlib.h>
+	<malloc.h>
+	<stddef.h>
+	<stdarg.h>
+	<memory.h>
+	<string.h>
+	<strings.h>
+	<inttypes.h>
+	<stdint.h>
+	<ctype.h>
+	<iconv.h>
+	"begin_code.h"
+	<alloca.h>
+	<malloc.h>
+	<malloc.h>
+	<malloc.h>
+	<stdlib.h>
+	"close_code.h"
+
+1326114587 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_config.h
+	"SDL_platform.h"
+	"SDL_config_dreamcast.h"
+	"SDL_config_macos.h"
+	"SDL_config_macosx.h"
+	"SDL_config_symbian.h"
+	"SDL_config_win32.h"
+	"SDL_config_os2.h"
+	"SDL_config_minimal.h"
+
+1325742239 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_platform.h
+
+1326114594 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_config_win32.h
+	"SDL_platform.h"
+
+1326114600 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\begin_code.h
+
+1325742239 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\close_code.h
+
+1325742239 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_audio.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_endian.h"
+	"SDL_mutex.h"
+	"SDL_thread.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325742239 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_error.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325742239 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_endian.h
+	"SDL_stdinc.h"
+	<endian.h>
+	"begin_code.h"
+	"close_code.h"
+
+1325742239 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_mutex.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325742239 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_thread.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_mutex.h"
+	"begin_code.h"
+	<process.h>
+	"close_code.h"
+
+1325742239 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_rwops.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325742239 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_cdrom.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325742239 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_cpuinfo.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325742239 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_events.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_active.h"
+	"SDL_keyboard.h"
+	"SDL_mouse.h"
+	"SDL_joystick.h"
+	"SDL_quit.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325742239 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_active.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325742239 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_keyboard.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_keysym.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325742239 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_keysym.h
+
+1325742239 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_mouse.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325742239 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_video.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325742239 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_joystick.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325742239 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_quit.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+
+1325742239 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_loadso.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325742239 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325742239 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_version.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1506546126 c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\video\spframelimiter.h
+	<SDL/SDL.h>
+	<math.h>
+	<iostream>
+
+1506546126 c:\users\armand\documents\code\c\popanel\src\spengine\sputil\spconverttools.h
+	<string>
+	<sstream>
+
+1506546126 c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\timer\sptimer.h
+	"SPEngine/spsdl/SPSDL.h"
+
+1506549588 c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\spsdl.h
+	<string>
+	<SDL/SDL.h>
+	<SDL/SDL_image.h>
+	<SDL/SDL_mixer.h>
+	<SDL/SDL_ttf.h>
+	"SPEngine/SPException.h"
+	"video/SPDisplayWindow.h"
+	"audio/SPAudioEngine.h"
+	"input/SPInputMger.h"
+
+1325814033 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_image.h
+	"SDL.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325814540 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_mixer.h
+	"SDL_types.h"
+	"SDL_rwops.h"
+	"SDL_audio.h"
+	"SDL_endian.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325742239 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_types.h
+	"SDL_stdinc.h"
+
+1325818393 c:\users\armand\documents\code\c\popanel\_extlibs-win\sdl-1.2.15\include\sdl\sdl_ttf.h
+	"SDL.h"
+	"begin_code.h"
+	"close_code.h"
+
+1506546126 c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\audio\spaudioengine.h
+	<SDL/SDL.h>
+	<SDL/SDL_mixer.h>
+	<string>
+	<vector>
+	"SPEngine/SPException.h"
+
+1507374995 c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\input\spinputmger.h
+	<string>
+	<vector>
+	<list>
+	<SDL/SDL.h>
+	<SDL/SDL_image.h>
+	<SDL/SDL_mixer.h>
+	<SDL/SDL_ttf.h>
+	"SPEngine/SPException.h"
+	"SPInputDefinition.h"
+	"SPEvent.h"
+
+1506546127 source:c:\users\armand\documents\code\c\popanel\src\gui\gameevents.cpp
+	"GameEvents.h"
+
+1507239009 source:c:\users\armand\documents\code\c\popanel\src\gui\keyboardcontrols.cpp
+	"KeyboardControls.h"
+
+1507238935 c:\users\armand\documents\code\c\popanel\src\gui\keyboardcontrols.h
+	<SDL/SDL.h>
+	<fstream>
+	"SPEngine/SPException.h"
+	"SPEngine/spsdl/input/SPInputMger.h"
+	"gui/consts/PanelActionsConst.h"
+
+1506546127 source:c:\users\armand\documents\code\c\popanel\src\gui\menucontrol.cpp
+	"MenuControl.h"
+
+1506546127 c:\users\armand\documents\code\c\popanel\src\gui\menucontrol.h
+	<string>
+	<vector>
+	"SPEngine/sputil/SPConvertTools.h"
+	"SPEngine/spsdl/video/SPDisplayWindow.h"
+	"SPEngine/spsdl/video/SPTTFFont.h"
+	"SPEngine/spsdl/video/SPStringBuffer.h"
+	"gui/consts/PanelGUIConsts.h"
+
+1506546126 c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\video\spttffont.h
+	<SDL/SDL_ttf.h>
+	<string>
+	"SPEngine/SPException.h"
+
+1506546126 c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\video\spstringbuffer.h
+	<string>
+	"SPTexture.h"
+	"SPTTFFont.h"
+	<SDL/SDL.h>
+	<SDL/SDL_ttf.h>
+
+1506546126 c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\video\sptexture.h
+	<SDL/SDL.h>
+	<SDL/SDL_image.h>
+	<string>
+	"SPEngine/SPException.h"
+	"SPEngine/spsdl/video/SPDisplayWindow.h"
+
+1506546127 c:\users\armand\documents\code\c\popanel\src\gui\consts\panelguiconsts.h
+
+1506546127 source:c:\users\armand\documents\code\c\popanel\src\gui\messagebox.cpp
+	"MessageBox.h"
+
+1506546127 c:\users\armand\documents\code\c\popanel\src\gui\messagebox.h
+	<string>
+	<vector>
+	"SPEngine/spsdl/video/SPStringBuffer.h"
+
+1506546127 source:c:\users\armand\documents\code\c\popanel\src\gui\textscroller.cpp
+	"TextScroller.h"
+
+1506546127 c:\users\armand\documents\code\c\popanel\src\gui\textscroller.h
+	<string>
+	"SPEngine/spsdl/timer/SPTimer.h"
+	"SPEngine/spsdl/video/SPStringBuffer.h"
+
+1506546127 source:c:\users\armand\documents\code\c\popanel\src\main.cpp
+	<cstdlib>
+	<stdlib.h>
+	<iostream>
+	<SDL/SDL.h>
+	"states/PanelMain.h"
+
+1506546127 c:\users\armand\documents\code\c\popanel\src\states\panelmain.h
+	<string>
+	<iostream>
+	<SDL/SDL.h>
+	<SDL/SDL_ttf.h>
+	"SPEngine/spsdl/SPSDL.h"
+	"SPEngine/spsdl/SPBaseState.h"
+	"LogoState.h"
+	"TitleState.h"
+	"GameState.h"
+	"KeyConfigState.h"
+	"StateRequestObject.h"
+	"game/containers/MatchSettings.h"
+	"gui/KeyboardControls.h"
+
+1506546126 c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\spbasestate.h
+
+1506546127 c:\users\armand\documents\code\c\popanel\src\states\logostate.h
+	"SPEngine/spsdl/SPGameState.h"
+	"StateRequestObject.h"
+	"SPEngine/spsdl/video/SPTextureMger.h"
+	"SPEngine/spsdl/audio/SPSoundsMger.h"
+	"gui/consts/PanelTexLoader.h"
+	"gui/consts/PanelSndLoader.h"
+	"gui/consts/PanelGUIConsts.h"
+	"SPEngine/spsdl/video/SPAsciiBMP.h"
+	"gui/FaderColor.h"
+	"SPEngine/spsdl/video/SPTTFFont.h"
+	"SPEngine/spsdl/video/SPStringBuffer.h"
+	"gui/KeyboardControls.h"
+
+1506546126 c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\spgamestate.h
+	"SPSDL.h"
+	"SPBaseState.h"
+
+1506546127 c:\users\armand\documents\code\c\popanel\src\states\staterequestobject.h
+
+1506546126 c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\video\sptexturemger.h
+	"SPTexture.h"
+	<map>
+	<vector>
+
+1506546126 c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\audio\spsoundsmger.h
+	<SDL/SDL_mixer.h>
+	<vector>
+	"SPEngine/spsdl/audio/SPAudioEngine.h"
+
+1506546127 c:\users\armand\documents\code\c\popanel\src\gui\consts\paneltexloader.h
+	"SPEngine/spsdl/video/SPTextureMger.h"
+
+1506546127 c:\users\armand\documents\code\c\popanel\src\gui\consts\panelsndloader.h
+	"SPEngine/spsdl/audio/SPSoundsMger.h"
+
+1506546126 c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\video\spasciibmp.h
+	<string>
+	"SPEngine/spsdl/video/SPTexture.h"
+	"SPEngine/spsdl/video/SPDisplayWindow.h"
+
+1506546127 c:\users\armand\documents\code\c\popanel\src\states\titlestate.h
+	"SPEngine/spsdl/SPGameState.h"
+	"StateRequestObject.h"
+	"SPEngine/spsdl/video/SPTextureMger.h"
+	"SPEngine/spsdl/audio/SPSoundsMger.h"
+	"SPEngine/spsdl/timer/SPTimer.h"
+	"gui/consts/PanelTexLoader.h"
+	"gui/consts/PanelSndLoader.h"
+	"SPEngine/spsdl/video/SPAsciiBMP.h"
+	"game/containers/MatchSettings.h"
+	"game/actors/Player.h"
+	"SPEngine/spsdl/video/SPTTFFont.h"
+	"gui/MenuControl.h"
+	"gui/FaderColor.h"
+	"gui/TextScroller.h"
+	"gui/MessageBox.h"
+	"gui/KeyboardControls.h"
+
+1507374227 c:\users\armand\documents\code\c\popanel\src\states\gamestate.h
+	"SPEngine/spsdl/SPGameState.h"
+	"SPEngine/spsdl/video/SPTextureMger.h"
+	"SPEngine/spsdl/audio/SPSoundsMger.h"
+	"SPEngine/spsdl/video/SPAsciiBMP.h"
+	"SPEngine/sputil/SPConvertTools.h"
+	"StateRequestObject.h"
+	"game/rules/PanelGameBehaviour.h"
+	"gui/consts/PanelTexLoader.h"
+	"gui/consts/PanelSndLoader.h"
+	"gui/consts/PanelGUIConsts.h"
+	"game/actors/Player.h"
+	"gui/GameEvents.h"
+	"gui/MenuControl.h"
+	"SPEngine/spsdl/video/SPTTFFont.h"
+	"SPEngine/spsdl/video/SPStringBuffer.h"
+	"SPEngine/spsdl/timer/SPTimer.h"
+	"gui/FaderColor.h"
+	"gui/TextScroller.h"
+	"gui/KeyboardControls.h"
+	"game/containers/MatchSettings.h"
+	<cmath>
+
+1506546127 c:\users\armand\documents\code\c\popanel\src\states\keyconfigstate.h
+	"SPEngine/spsdl/SPGameState.h"
+	"StateRequestObject.h"
+	"SPEngine/spsdl/video/SPTextureMger.h"
+	"SPEngine/spsdl/audio/SPSoundsMger.h"
+	"SPEngine/spsdl/timer/SPTimer.h"
+	"gui/consts/PanelTexLoader.h"
+	"gui/consts/PanelSndLoader.h"
+	"SPEngine/spsdl/video/SPAsciiBMP.h"
+	"SPEngine/spsdl/video/SPTTFFont.h"
+	"gui/MenuControl.h"
+	"gui/FaderColor.h"
+	"gui/MessageBox.h"
+	"gui/KeyboardControls.h"
+
+1506546126 source:c:\users\armand\documents\code\c\popanel\src\spengine\spexception.cpp
+	"SPEngine/SPException.h"
+
+1506546126 source:c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\audio\spaudioengine.cpp
+	"SPEngine/spsdl/audio/SPAudioEngine.h"
+
+1506546126 source:c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\audio\spsoundsmger.cpp
+	"SPEngine/spsdl/audio/SPSoundsMger.h"
+
+1506546126 source:c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\spbasestate.cpp
+	"SPEngine/spsdl/SPBaseState.h"
+
+1506546126 source:c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\spgamestate.cpp
+	"SPEngine/spsdl/SPGameState.h"
+
+1506546126 source:c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\timer\sptimer.cpp
+	"SPTimer.h"
+
+1506546126 source:c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\video\spasciibmp.cpp
+	"SPEngine/spsdl/video/SPAsciiBMP.h"
+
+1506546126 source:c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\video\spdisplaywindow.cpp
+	"SPEngine/spsdl/video/SPDisplayWindow.h"
+
+1506546126 source:c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\video\spframelimiter.cpp
+	"SPEngine/spsdl/video/SPFrameLimiter.h"
+
+1506546126 source:c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\video\spstringbuffer.cpp
+	"SPStringBuffer.h"
+
+1506546126 source:c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\video\sptexture.cpp
+	"SPEngine/spsdl/video/SPTexture.h"
+
+1506546126 source:c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\video\sptexturemger.cpp
+	"SPEngine/spsdl/video/SPTextureMger.h"
+
+1506546126 source:c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\video\spttffont.cpp
+	"SPTTFFont.h"
+
+1507240309 source:c:\users\armand\documents\code\c\popanel\src\states\gamestate.cpp
+	"GameState.h"
+
+1507238716 source:c:\users\armand\documents\code\c\popanel\src\states\keyconfigstate.cpp
+	"KeyConfigState.h"
+
+1507232291 source:c:\users\armand\documents\code\c\popanel\src\states\logostate.cpp
+	"LogoState.h"
+
+1507237233 source:c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\input\spinputmger.cpp
+	"SPInputMger.h"
+
+1506549557 source:c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\spsdl.cpp
+	"SPSDL.h"
+
+1507231717 source:c:\users\armand\documents\code\c\popanel\src\states\panelmain.cpp
+	"PanelMain.h"
+
+1506546127 source:c:\users\armand\documents\code\c\popanel\src\states\staterequestobject.cpp
+	"StateRequestObject.h"
+
+1507233166 source:c:\users\armand\documents\code\c\popanel\src\states\titlestate.cpp
+	"TitleState.h"
+
+1506546127 source:c:\users\armand\documents\code\c\popanel\src\timers\manualtimer.cpp
+	"ManualTimer.h"
+
+1507230133 source:c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\input\spinputdefinition.cpp
+	"SPInputDefinition.h"
+
+1507230108 c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\input\spinputdefinition.h
+	<SDL/SDL.h>
+
+1506553371 c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\input\spevent.h
+
+1506553227 source:c:\users\armand\documents\code\c\popanel\src\spengine\spsdl\input\spevent.cpp
+	"SPEvent.h"
+
+1507238756 c:\users\armand\documents\code\c\popanel\src\gui\consts\panelactionsconst.h
+

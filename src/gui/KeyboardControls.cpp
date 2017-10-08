@@ -31,6 +31,27 @@ void SetDictionaryFromControls(SPInputMger& p_InputMgr, KeyboardControls& p_Ctrl
     p_InputMgr.AddSDLKeyboardInputToActionDictionnary(C_Actions::PAUSE, 2, p_Ctrls.p2_Pause);
 }
 
+void SetDictionnaryAsXboxGamepad(SPInputMger& p_InputMgr, long p_PlayerNumber, long p_GamepadIndex)
+{
+    p_InputMgr.AddSDLJoystickDPadDirectionToActionDictionnary(C_Actions::MENUUP, p_PlayerNumber, p_GamepadIndex, SPInputDefinition::DPAD_UP);
+    p_InputMgr.AddSDLJoystickDPadDirectionToActionDictionnary(C_Actions::MENUDOWN, p_PlayerNumber, p_GamepadIndex, SPInputDefinition::DPAD_DOWN);
+    p_InputMgr.AddSDLJoystickDPadDirectionToActionDictionnary(C_Actions::MENULEFT, p_PlayerNumber, p_GamepadIndex, SPInputDefinition::DPAD_LEFT);
+    p_InputMgr.AddSDLJoystickDPadDirectionToActionDictionnary(C_Actions::MENURIGHT, p_PlayerNumber, p_GamepadIndex, SPInputDefinition::DPAD_RIGHT);
+    p_InputMgr.AddSDLJoystickButtonToActionDictionnary(C_Actions::MENUVALIDATE, p_PlayerNumber, p_GamepadIndex, 0);
+    p_InputMgr.AddSDLJoystickButtonToActionDictionnary(C_Actions::MENUCANCEL, p_PlayerNumber, p_GamepadIndex, 1);
+
+
+    p_InputMgr.AddSDLJoystickDPadDirectionToActionDictionnary(C_Actions::UP, p_PlayerNumber, p_GamepadIndex, SPInputDefinition::DPAD_UP);
+    p_InputMgr.AddSDLJoystickDPadDirectionToActionDictionnary(C_Actions::DOWN, p_PlayerNumber, p_GamepadIndex, SPInputDefinition::DPAD_DOWN);
+    p_InputMgr.AddSDLJoystickDPadDirectionToActionDictionnary(C_Actions::LEFT, p_PlayerNumber, p_GamepadIndex, SPInputDefinition::DPAD_LEFT);
+    p_InputMgr.AddSDLJoystickDPadDirectionToActionDictionnary(C_Actions::RIGHT, p_PlayerNumber, p_GamepadIndex, SPInputDefinition::DPAD_RIGHT);
+    p_InputMgr.AddSDLJoystickButtonToActionDictionnary(C_Actions::SWAP, p_PlayerNumber, p_GamepadIndex, 0);
+    p_InputMgr.AddSDLJoystickButtonToActionDictionnary(C_Actions::RAISE, p_PlayerNumber, p_GamepadIndex, 2);
+    p_InputMgr.AddSDLJoystickButtonToActionDictionnary(C_Actions::PAUSE, p_PlayerNumber, p_GamepadIndex, 8);
+
+    // TODO: Axis and hats
+}
+
 void SetDefaultControls(KeyboardControls& p_Ctrls)
 {
     // Menu controls

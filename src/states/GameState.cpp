@@ -267,7 +267,6 @@ bool GameState::Play(long p_Delta)
                         switch(event.GetActionNumber())
                         {
                             case C_Actions::PAUSE:
-                            case C_Actions::MENUCANCEL:
                                 // Pause action gets priority
                                 this->SetGameStatus(GameState::GAME_PAUSED); // Mettre la musique sur pause
                                 m_SDL.audio().PauseCurrentMusic();
