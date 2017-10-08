@@ -358,7 +358,7 @@ bool GameState::Play(long p_Delta)
                                 }
                                 break;
                             case C_Actions::RAISE:
-                                this->m_PanelGame.RequestFieldRiseStop( this->m_Player[0] );
+                                this->m_PanelGame.RequestFieldRiseStop( this->m_Player[playerArrayId] );
                                 break;
                         }
                     }
