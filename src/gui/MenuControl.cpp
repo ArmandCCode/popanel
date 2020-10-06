@@ -226,7 +226,7 @@ bool MenuControl::SetValueNumAndString(int p_IDEntry, int p_Value, std::string p
 }
 
 // Navigation
-bool MenuControl::SelectEntry(int p_IDEntry)
+bool MenuControl::JumpToEntry(int p_IDEntry)
 {
     // Wrap around the available menus when selecting one that is out of range
     if (p_IDEntry < 0)
@@ -246,7 +246,7 @@ bool MenuControl::NextEntry()
     // Aller au menu suivant
     do
     {
-        this->SelectEntry(this->GetSelectedEntry() + 1);
+        this->JumpToEntry(this->GetSelectedEntry() + 1);
         // Si on tombe sur un spacer, on continue de changer
     } while ( (this->m_MenuEntries[this->GetSelectedEntry()].EntryType == MenuControl::TYPE_SPACER) );
     return true;
@@ -257,7 +257,7 @@ bool MenuControl::PrevEntry()
     // Aller au menu précédent
     do
     {
-        this->SelectEntry(this->GetSelectedEntry() - 1);
+        this->JumpToEntry(this->GetSelectedEntry() - 1);
         // Si on tombe sur un spacer, on continue de changer
     } while ( (this->m_MenuEntries[this->GetSelectedEntry()].EntryType == MenuControl::TYPE_SPACER) );
     return true;
@@ -288,7 +288,7 @@ void MenuControl::RenderToWindow(SPDisplayWindow& p_window, long p_X, long p_Y, 
         // If label is empty, no need to render the string
         if (this->GetLabel(i) != "" )
         {
-            this->m_StrBufEntries[i].SetColor(C_FontProps::MENUELTFONTR, C_FontProps::MENUELTFONTG, C_FontProps::MENUELTFONTB);
+            this->m_StrBufEntries[i].SetColor(C_FontProperties::MENUELTFONTR, C_FontProperties::MENUELTFONTG, C_FontProperties::MENUELTFONTB);
             this->m_StrBufEntries[i].RasterizeString( this->GetLabel(i) , p_RenderFont);
             this->m_StrBufEntries[i].RenderToWindow(p_window, DrawX, DrawY);
         }
@@ -302,7 +302,7 @@ void MenuControl::RenderToWindow(SPDisplayWindow& p_window, long p_X, long p_Y, 
             case MenuControl::TYPE_STRINGLIST:
             case MenuControl::TYPE_NUMANDSTRING:
 
-                this->m_StrBufValues[i].SetColor(C_FontProps::MENUELTFONTR, C_FontProps::MENUELTFONTG, C_FontProps::MENUELTFONTB);
+                this->m_StrBufValues[i].SetColor(C_FontProperties::MENUELTFONTR, C_FontProperties::MENUELTFONTG, C_FontProperties::MENUELTFONTB);
                 switch (thisEntry.EntryType)
                 {
                     case MenuControl::TYPE_NUMSELECTOR:

@@ -124,8 +124,6 @@
 		<Unit filename="src/states/GameState.h" />
 		<Unit filename="src/states/KeyConfigState.cpp" />
 		<Unit filename="src/states/KeyConfigState.h" />
-		<Unit filename="src/states/LogoState.cpp" />
-		<Unit filename="src/states/LogoState.h" />
 		<Unit filename="src/states/PanelMain.cpp" />
 		<Unit filename="src/states/PanelMain.h" />
 		<Unit filename="src/states/StateRequestObject.cpp" />

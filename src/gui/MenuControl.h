@@ -29,29 +29,29 @@ class MenuControl
         static const int TYPE_VALIDATOR = 0;
         static const int TYPE_NUMSELECTOR = 1;
         static const int TYPE_STRINGLIST = 2;
-        static const int TYPE_SPACER = 3; // Ne peut pas être mis en surbrillance, sert juste a espacer les menus
-        static const int TYPE_NUMANDSTRING = 4; // Will accept a number (int) and string pair
+        static const int TYPE_SPACER = 3; // Just a spacer, cannot be selected
+        static const int TYPE_NUMANDSTRING = 4; // Will accept a integer-string pair
 
         bool AddMenuEntry(std::string p_Label, int p_EntryType = TYPE_VALIDATOR, long p_DefaultValue = 0, long p_MinValue = 0, long p_MaxValue = 99, std::vector<std::string> p_ValueStrings = std::vector<std::string>() );
 
         void RemoveEverything();
 
-        std::string GetLabel(int p_IDEntry); // Récupérer le libellé de l'entrée
+        std::string GetLabel(int p_IDEntry);
 
-        long GetValue(int p_IDEntry); // Récupérer la valeur actuelle de l'entrée
-        std::string GetString(int p_IDEntry); // Récupérer la chaîne associée à la valeur actuelle de l'entrée
+        long GetValue(int p_IDEntry); // get the integer part of the integer-string pair
+        std::string GetString(int p_IDEntry); // get the string part of the integer-string pair
 
-        bool SetValue(int p_IDEntry, int p_Value); // Forcer une valeur (dans les limites du domaine défini par défaut) // ne fait rien et renvoie faux si le type est un TYPE_NUMANDSTRING
-        bool NextValue(int p_IDEntry); // Aller à la valeur suivante : boucle sur la minimale si on va au delà du max // ne fait rien et renvoie faux si le type est un TYPE_NUMANDSTRING
-        bool PrevValue(int p_IDEntry); // Aller à la valeur précédente : boucle sur la minimale si on va en dessous du min // ne fait rien et renvoie faux si le type est un TYPE_NUMANDSTRING
+        bool SetValue(int p_IDEntry, int p_Value); // Force a value (as long as it is in range) // just returns false if type is TYPE_NUMANDSTRING
+        bool NextValue(int p_IDEntry); // Next value, loops back to minimum value if value above maximum // just returns false if type is TYPE_NUMANDSTRING
+        bool PrevValue(int p_IDEntry); // Previous value, loops forward to maximum value if value below minimum // // just returns false if type is TYPE_NUMANDSTRING
 
         bool SetValueNumAndString(int p_IDEntry, int p_Value, std::string p_StringValue); // This function will do nothing and return false if the type of the entry is not TYPE_NUMANDSTRING
 
         // Navigation
         long GetSelectedEntry() { return m_SelectedEntry; }
-        bool SelectEntry(int p_IDEntry); // Sauter à un menu du code indiqué
-        bool NextEntry(); // Aller au menu suivant
-        bool PrevEntry(); // Aller au menu précédent
+        bool JumpToEntry(int p_IDEntry);
+        bool NextEntry();
+        bool PrevEntry();
 
         void SetMenuWidth(unsigned long p_width) { m_MenuWidth = p_width; }
 

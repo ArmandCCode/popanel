@@ -12,11 +12,9 @@ class StateRequestObject
         static const int CLOSEAPP = -2;
 
         // Garder un ordre séquentiel
-        static const int LOGO = 0;
-        static const int TITLE = 1;
-        static const int MENU = 2;
-        static const int GAME = 3;
-        static const int KEYCONFIG = 4;
+        static const int TITLE = 0;
+        static const int GAME = 1;
+        static const int KEYCONFIG = 2;
 
         int GetDesiredState() { return m_DesiredState; }
         void SetDesiredState(int val) { m_DesiredState = val; }

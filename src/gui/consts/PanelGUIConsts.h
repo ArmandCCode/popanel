@@ -1,13 +1,20 @@
 #ifndef PANELGUICONST_H
 #define PANELGUICONST_H
 
+namespace C_WindowSize
+{
+    static const int HEIGHT = 480;
+    static const int WIDTH = 640;
+    static const int BITDEPTH = 32;
+}
+
 namespace C_TextureSizes
 {
     static const int PANELW = 32;
     static const int PANELH = 32;
 };
 
-namespace C_FontProps
+namespace C_FontProperties
 {
     static const int XSMALLFONTHEIGHT = 16;
     static const int SMALLFONTHEIGHT = 24;

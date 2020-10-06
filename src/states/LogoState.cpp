@@ -74,7 +74,6 @@ bool LogoState::Frame()
 {
     m_SDL.window().EmptyFrame();
 
-    //this->m_texList.GetTextureByID(LogoTex::TX_LOGO).RenderToWindow(m_SDL.window(), 109, 190);
     this->m_GameNameText.RenderToWindow(m_SDL.window(), 320, 176, SPTexture::RENDER_FROMCENTER);
     this->m_DevelopedByText.RenderToWindow(m_SDL.window(), 320, 240, SPTexture::RENDER_FROMCENTER);
     this->m_HyperlinkText.RenderToWindow(m_SDL.window(), 320, 272, SPTexture::RENDER_FROMCENTER);
@@ -101,10 +100,10 @@ bool LogoState::LoadResources()
     this->m_TextRenderer.LoadFont("./fonts/armandc-ascii-font-8.png", 8, 8);
 
     // Texte TTF
-    this->m_LogoFont.LoadFont("./fonts/BubblegumSans-Regular.otf", C_FontProps::SMALLFONTHEIGHT);
+    this->m_LogoFont.LoadFont("./fonts/BubblegumSans-Regular.otf", C_FontProperties::SMALLFONTHEIGHT);
 
     this->m_GameNameText.SetColor(192, 192, 192);
-    this->m_GameNameText.RasterizeString("POPanel - 2016", m_LogoFont);
+    this->m_GameNameText.RasterizeString("POPanel - 2016-2020", m_LogoFont);
     this->m_DevelopedByText.SetColor(192, 192, 192);
     this->m_DevelopedByText.RasterizeString("Game developed by Armand Christophe", m_LogoFont);
     this->m_HyperlinkText.SetColor(192, 192, 192);

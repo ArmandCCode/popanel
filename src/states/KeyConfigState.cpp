@@ -114,17 +114,17 @@ bool KeyConfigState::Play(long p_Delta)
                         else
                         {
                             this->SetMenuStatus(MENU_WAITFORINPUT);
-                            this->m_MessageBox.SetLineString(0, "Set key for " + this->m_MenuCtl.GetLabel(this->m_MenuCtl.GetSelectedEntry()), m_FontMenu, C_FontProps::MENUELTFONTR, C_FontProps::MENUELTFONTG, C_FontProps::MENUELTFONTB);
-                            this->m_MessageBox.SetLineString(1, "Or wait 5 seconds to cancel.", m_FontMenu, C_FontProps::MENUELTFONTR, C_FontProps::MENUELTFONTG, C_FontProps::MENUELTFONTB);
-                            this->m_MessageBox.SetLineString(2, "---", m_FontMenu, C_FontProps::MENUELTFONTR, C_FontProps::MENUELTFONTG, C_FontProps::MENUELTFONTB);
-                            this->m_MessageBox.SetLineString(3, "5", m_FontMenu, C_FontProps::MENUELTFONTR, C_FontProps::MENUELTFONTG, C_FontProps::MENUELTFONTB);
+                            this->m_MessageBox.SetLineString(0, "Set key for " + this->m_MenuCtl.GetLabel(this->m_MenuCtl.GetSelectedEntry()), m_FontMenu, C_FontProperties::MENUELTFONTR, C_FontProperties::MENUELTFONTG, C_FontProperties::MENUELTFONTB);
+                            this->m_MessageBox.SetLineString(1, "Or wait 5 seconds to cancel.", m_FontMenu, C_FontProperties::MENUELTFONTR, C_FontProperties::MENUELTFONTG, C_FontProperties::MENUELTFONTB);
+                            this->m_MessageBox.SetLineString(2, "---", m_FontMenu, C_FontProperties::MENUELTFONTR, C_FontProperties::MENUELTFONTG, C_FontProperties::MENUELTFONTB);
+                            this->m_MessageBox.SetLineString(3, "5", m_FontMenu, C_FontProperties::MENUELTFONTR, C_FontProperties::MENUELTFONTG, C_FontProperties::MENUELTFONTB);
                             this->m_KeyPressCountdown.SetLength(5000);
                             this->m_KeyPressCountdown.Restart();
                         }
                     }
                     else if (event.key.keysym.sym == m_Controls.m_Cancel) {
                         this->m_SDL.audio().PlaySample(m_sndList.GetSample(TitleSnd::SPL_VALIDATE), 1);
-                        this->m_MenuCtl.SelectEntry(MENU_QUITNOSAVE);
+                        this->m_MenuCtl.JumpToEntry(MENU_QUITNOSAVE);
                     }
                 break;
 
@@ -136,10 +136,10 @@ bool KeyConfigState::Play(long p_Delta)
                         if (event.key.keysym.sym == SDLK_ESCAPE )
                         {
                             m_KeyPressCountdown.Restart();
-                            this->m_MessageBox.SetLineString(0, "Escape is already set to pausing at all times.", m_FontMenu, C_FontProps::MENUELTFONTR, C_FontProps::MENUELTFONTG, C_FontProps::MENUELTFONTB);
-                            this->m_MessageBox.SetLineString(1, "Please press another key or wait 5 seconds.", m_FontMenu, C_FontProps::MENUELTFONTR, C_FontProps::MENUELTFONTG, C_FontProps::MENUELTFONTB);
-                            this->m_MessageBox.SetLineString(2, "---", m_FontMenu, C_FontProps::MENUELTFONTR, C_FontProps::MENUELTFONTG, C_FontProps::MENUELTFONTB);
-                            this->m_MessageBox.SetLineString(3, "5", m_FontMenu, C_FontProps::MENUELTFONTR, C_FontProps::MENUELTFONTG, C_FontProps::MENUELTFONTB);
+                            this->m_MessageBox.SetLineString(0, "Escape is already set to pausing at all times.", m_FontMenu, C_FontProperties::MENUELTFONTR, C_FontProperties::MENUELTFONTG, C_FontProperties::MENUELTFONTB);
+                            this->m_MessageBox.SetLineString(1, "Please press another key or wait 5 seconds.", m_FontMenu, C_FontProperties::MENUELTFONTR, C_FontProperties::MENUELTFONTG, C_FontProperties::MENUELTFONTB);
+                            this->m_MessageBox.SetLineString(2, "---", m_FontMenu, C_FontProperties::MENUELTFONTR, C_FontProperties::MENUELTFONTG, C_FontProperties::MENUELTFONTB);
+                            this->m_MessageBox.SetLineString(3, "5", m_FontMenu, C_FontProperties::MENUELTFONTR, C_FontProperties::MENUELTFONTG, C_FontProperties::MENUELTFONTB);
                         }
                         else
                         {
@@ -156,10 +156,10 @@ bool KeyConfigState::Play(long p_Delta)
                                     if (this->m_MenuCtl.GetValue(i) == (long)event.key.keysym.sym )
                                     {
                                         bAlreadyUsed = true;
-                                        this->m_MessageBox.SetLineString(0, "The " + (std::string)SDL_GetKeyName(event.key.keysym.sym) + " key is already used by " + this->m_MenuCtl.GetLabel(i) + ".", m_FontMenu, C_FontProps::MENUELTFONTR, C_FontProps::MENUELTFONTG, C_FontProps::MENUELTFONTB);
-                                        this->m_MessageBox.SetLineString(1, "Please press another key or wait 5 seconds.", m_FontMenu, C_FontProps::MENUELTFONTR, C_FontProps::MENUELTFONTG, C_FontProps::MENUELTFONTB);
-                                        this->m_MessageBox.SetLineString(2, "---", m_FontMenu, C_FontProps::MENUELTFONTR, C_FontProps::MENUELTFONTG, C_FontProps::MENUELTFONTB);
-                                        this->m_MessageBox.SetLineString(3, "5", m_FontMenu, C_FontProps::MENUELTFONTR, C_FontProps::MENUELTFONTG, C_FontProps::MENUELTFONTB);
+                                        this->m_MessageBox.SetLineString(0, "The " + (std::string)SDL_GetKeyName(event.key.keysym.sym) + " key is already used by " + this->m_MenuCtl.GetLabel(i) + ".", m_FontMenu, C_FontProperties::MENUELTFONTR, C_FontProperties::MENUELTFONTG, C_FontProperties::MENUELTFONTB);
+                                        this->m_MessageBox.SetLineString(1, "Please press another key or wait 5 seconds.", m_FontMenu, C_FontProperties::MENUELTFONTR, C_FontProperties::MENUELTFONTG, C_FontProperties::MENUELTFONTB);
+                                        this->m_MessageBox.SetLineString(2, "---", m_FontMenu, C_FontProperties::MENUELTFONTR, C_FontProperties::MENUELTFONTG, C_FontProperties::MENUELTFONTB);
+                                        this->m_MessageBox.SetLineString(3, "5", m_FontMenu, C_FontProperties::MENUELTFONTR, C_FontProperties::MENUELTFONTG, C_FontProperties::MENUELTFONTB);
                                         this->m_KeyPressCountdown.Restart();
                                     }
                                     break;
@@ -272,7 +272,7 @@ bool KeyConfigState::Frame()
         break;
         case KeyConfigState::MENU_WAITFORINPUT:
             // Countdown
-            this->m_MessageBox.SetLineString(3, SPConv::NumToStr((this->m_KeyPressCountdown.GetRemaining() / 1000) + 1), m_FontMenu, C_FontProps::MENUELTFONTR, C_FontProps::MENUELTFONTG, C_FontProps::MENUELTFONTB);
+            this->m_MessageBox.SetLineString(3, SPConv::NumToStr((this->m_KeyPressCountdown.GetRemaining() / 1000) + 1), m_FontMenu, C_FontProperties::MENUELTFONTR, C_FontProperties::MENUELTFONTG, C_FontProperties::MENUELTFONTB);
             this->m_MessageBox.RenderToWindow(m_SDL.window(), 320, 240, true);
             break;
         default:
@@ -302,8 +302,8 @@ bool KeyConfigState::LoadResources()
     this->m_TextRenderer.LoadFont("./fonts/armandc-ascii-font-8.png", 8, 8);
 
     // Texte TTF
-    this->m_FontMenu.LoadFont("./fonts/BubblegumSans-Regular.otf", C_FontProps::SMALLFONTHEIGHT);
-    this->m_FontMessage.LoadFont("./fonts/BubblegumSans-Regular.otf", C_FontProps::MEDIUMFONTHEIGHT);
+    this->m_FontMenu.LoadFont("./fonts/BubblegumSans-Regular.otf", C_FontProperties::SMALLFONTHEIGHT);
+    this->m_FontMessage.LoadFont("./fonts/BubblegumSans-Regular.otf", C_FontProperties::MEDIUMFONTHEIGHT);
 
     // Paramétrage du menu principal
     this->m_MenuCtl.SetMenuWidth(480);

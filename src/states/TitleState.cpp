@@ -98,12 +98,12 @@ bool TitleState::Play(long p_Delta)
                             }
                             else
                             {
-                                this->m_MenuCtl.SelectEntry(MENU_STARTGAME);
+                                this->m_MenuCtl.JumpToEntry(MENU_STARTGAME);
                             }
                             break;
                         case C_Actions::MENUCANCEL:
                             this->m_SDL.audio().PlaySample(m_sndList.GetSample(TitleSnd::SPL_VALIDATE), 1);
-                            this->m_MenuCtl.SelectEntry(MENU_QUITGAME);
+                            this->m_MenuCtl.JumpToEntry(MENU_QUITGAME);
                             break;
                     }
 
@@ -115,93 +115,6 @@ bool TitleState::Play(long p_Delta)
             }
         }
     }
-
-
-    /*
-    SDL_Event event;
-    while (this->m_SDL.input().SDLPollEvent(&event))
-    {
-        // check for messages
-        switch (event.type)
-        {
-            // exit if the window is closed
-        case SDL_QUIT:
-            this->m_stateRequest.SetDesiredState( StateRequestObject::CLOSEAPP );
-            return false;
-            break;
-        case SDL_KEYDOWN:
-            switch (this->m_MenuStatus)
-            {
-                case TitleState::MENU_PRESSANYKEY:
-                    // Afficher le menu
-                    this->SetMenuStatus(TitleState::MENU_INMENU);
-                    this->m_SDL.audio().PlaySample(m_sndList.GetSample(TitleSnd::SPL_VALIDATE), 1);
-                    this->m_HelpScroll.RestartScroll();
-                break;
-
-                case TitleState::MENU_INMENU:
-                    if (event.key.keysym.sym == m_Controls.m_Up) {
-                        this->m_SDL.audio().PlaySample(m_sndList.GetSample(TitleSnd::SPL_CURSORMOVE), 2);
-                        this->m_MenuCtl.PrevEntry();
-                    }
-                    else if (event.key.keysym.sym == m_Controls.m_Down) {
-                        this->m_SDL.audio().PlaySample(m_sndList.GetSample(TitleSnd::SPL_CURSORMOVE), 2);
-                        this->m_MenuCtl.NextEntry();
-                    }
-                    else if (event.key.keysym.sym == m_Controls.m_Left) {
-                        this->m_SDL.audio().PlaySample(m_sndList.GetSample(TitleSnd::SPL_CURSORMOVE), 2);
-                        this->m_MenuCtl.PrevValue(this->m_MenuCtl.GetSelectedEntry());
-                    }
-                    else if (event.key.keysym.sym == m_Controls.m_Right) {
-                        this->m_SDL.audio().PlaySample(m_sndList.GetSample(TitleSnd::SPL_CURSORMOVE), 2);
-                        this->m_MenuCtl.NextValue(this->m_MenuCtl.GetSelectedEntry());
-                    }
-                    else if (event.key.keysym.sym == m_Controls.m_Validate) {
-
-                        this->m_SDL.audio().PlaySample(m_sndList.GetSample(TitleSnd::SPL_VALIDATE), 1);
-                        if (this->m_MenuCtl.GetSelectedEntry() == MENU_STARTGAME)
-                        {
-                            // Récupérer les valeurs du menu
-                            this->m_MatchSettings.SetNumPlayers(this->m_MenuCtl.GetValue(MENU_NUMPLAYERS));
-                            this->m_MatchSettings.SetDifficulty(this->m_MenuCtl.GetValue(MENU_DIFFICULTY));
-                            this->m_MatchSettings.SetInitialSpeed(this->m_MenuCtl.GetValue(MENU_STACKSPEED));
-
-                            this->m_MatchSettings.SetGameDuration(120000); // Pour l'instant, la durée n'est pas personnalisable : 2 minutes
-                            this->m_stateRequest.SetDesiredState( StateRequestObject::GAME );
-                            bCausesExitState = true;
-
-                        }
-                        else if (this->m_MenuCtl.GetSelectedEntry() == MENU_QUITGAME)
-                        {
-                            this->m_stateRequest.SetDesiredState( StateRequestObject::CLOSEAPP );
-                            bCausesExitState = true;
-                        }
-                        else if (this->m_MenuCtl.GetSelectedEntry() == MENU_KEYCONFIG)
-                        {
-                            this->m_stateRequest.SetDesiredState( StateRequestObject::KEYCONFIG );
-                            bCausesExitState = true;
-                        }
-                        else
-                        {
-                            this->m_MenuCtl.SelectEntry(MENU_STARTGAME);
-                        }
-                    }
-                    else if (event.key.keysym.sym == m_Controls.m_Cancel) {
-                        this->m_SDL.audio().PlaySample(m_sndList.GetSample(TitleSnd::SPL_VALIDATE), 1);
-                        this->m_MenuCtl.SelectEntry(MENU_QUITGAME);
-                    }
-
-                break;
-                default:
-                    // Rien a faire pendant les transitions
-
-                break;
-
-            }
-        default:
-            break;
-        }
-    } */
 
     if (bCausesExitState)
     {
@@ -237,8 +150,8 @@ bool TitleState::Play(long p_Delta)
         break;
     }
 
-    // Maj timers d'interface
-    // Arrière plan défilant
+    // UI timers
+    // Scrolling background
     if ( m_BGScrollEffect.IsTimerEnd() )
     {
         m_BGScrollEffect.Restart( m_BGScrollEffect.GetOvertime() );
@@ -251,14 +164,13 @@ bool TitleState::Frame()
 {
     m_SDL.window().EmptyFrame();
 
-    // Arrière plan défilant
+    // Scrolling background
     int ScreenW = m_SDL.window().GetWidth();
     int ScreenH = m_SDL.window().GetHeight();
 
     long BGSizeH = this->m_texList.GetTextureByID(TitleTex::TX_BACKGROUNDSCROLL).getH();
     long BGSizeW = this->m_texList.GetTextureByID(TitleTex::TX_BACKGROUNDSCROLL).getW();
 
-    // Variables tampon
     long DrawX = 0;
     long DrawY = 0;
 
@@ -275,10 +187,11 @@ bool TitleState::Frame()
         }
     }
 
-    // Dessin du titre flottant
-    int iDecalage =  (double)(16.00 * sin( ((SDL_GetTicks() % 5000) / 5000.00) * (2 * M_PI)) );
+    // Draw floating title
+    const double wobbleAmplitude = 16.00;
+    int wobbleOffset = (double)(wobbleAmplitude * sin( ((SDL_GetTicks() % 5000) / 5000.00) * (2 * M_PI)) );
     DrawX = 320;
-    DrawY = 128 + iDecalage ;
+    DrawY = 128 + wobbleOffset ;
     this->m_texList.GetTextureByID(TitleTex::TX_LOGO).RenderToWindow(m_SDL.window(), DrawX, DrawY, true);
 
     switch ( this->GetMenuStatus() )
@@ -321,8 +234,8 @@ bool TitleState::LoadResources()
     this->m_TextRenderer.LoadFont("./fonts/armandc-ascii-font-8.png", 8, 8);
 
     // Texte TTF
-    this->m_FontMenu.LoadFont("./fonts/BubblegumSans-Regular.otf", C_FontProps::SMALLFONTHEIGHT);
-    this->m_FontMessage.LoadFont("./fonts/BubblegumSans-Regular.otf", C_FontProps::MEDIUMFONTHEIGHT);
+    this->m_FontMenu.LoadFont("./fonts/BubblegumSans-Regular.otf", C_FontProperties::SMALLFONTHEIGHT);
+    this->m_FontMessage.LoadFont("./fonts/BubblegumSans-Regular.otf", C_FontProperties::MEDIUMFONTHEIGHT);
 
     // Paramétrage du menu principal
     this->m_MenuCtl.SetMenuWidth(320);
@@ -339,9 +252,12 @@ bool TitleState::LoadResources()
     this->m_MenuCtl.AddMenuEntry("Quit Game", MenuControl::TYPE_VALIDATOR);
 
     // "Press any key"
-    this->m_PressAnyKey.SetLinesInMessage(1);
-    this->m_PressAnyKey.SetLineString(0, "Press any key", m_FontMessage, C_FontProps::MENUELTFONTR, C_FontProps::MENUELTFONTG, C_FontProps::MENUELTFONTB);
-    this->m_PressAnyKey.SetMessageBoxWidth(240);
+    this->m_PressAnyKey.SetLinesInMessage(4);
+    this->m_PressAnyKey.SetLineString(0, "Developed by Armand Christophe", m_FontMessage, C_FontProperties::MENUELTFONTR, C_FontProperties::MENUELTFONTG, C_FontProperties::MENUELTFONTB);
+    this->m_PressAnyKey.SetLineString(1, "www.armandchristophe.com", m_FontMessage, C_FontProperties::MENUELTFONTR, C_FontProperties::MENUELTFONTG, C_FontProperties::MENUELTFONTB);
+    this->m_PressAnyKey.SetLineString(2, "-", m_FontMessage, C_FontProperties::MENUELTFONTR, C_FontProperties::MENUELTFONTG, C_FontProperties::MENUELTFONTB);
+    this->m_PressAnyKey.SetLineString(3, "Press any key", m_FontMessage, C_FontProperties::MENUELTFONTR, C_FontProperties::MENUELTFONTG, C_FontProperties::MENUELTFONTB);
+    this->m_PressAnyKey.SetMessageBoxWidth(420);
     this->m_PressAnyKey.SetTextCenter(true);
 
     // Indique les commandes
@@ -350,7 +266,7 @@ bool TitleState::LoadResources()
                                  + "/" + SDL_GetKeyName(m_Controls.m_Down) + " : Select option - "
                                  + SDL_GetKeyName(m_Controls.m_Left) + "/" + SDL_GetKeyName(m_Controls.m_Right) + " : Modify option - "
                                  + SDL_GetKeyName(m_Controls.m_Validate) + " : Validate"
-                                 , m_FontMenu, C_FontProps::MENUELTFONTR, C_FontProps::MENUELTFONTG, C_FontProps::MENUELTFONTB);
+                                 , m_FontMenu, C_FontProperties::MENUELTFONTR, C_FontProperties::MENUELTFONTG, C_FontProperties::MENUELTFONTB);
     this->m_HelpScroll.SetScrollerSpeed(80);
     this->m_HelpScroll.SetScrollerWidth(620);
 
