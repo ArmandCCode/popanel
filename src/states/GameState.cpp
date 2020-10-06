@@ -115,63 +115,6 @@ bool GameState::Play(long p_Delta)
     // fading out effect
     bool bCausesExitState = false;
 
-    // Traitement de la répétition des mouvements du curseur
-    // Ne demander la répétition du curseur qu'en cours de jeu
-    if ( this->GetGameStatus() == GameState::GAME_PLAYING )
-    {
-        // Bouger le curseur à répétition tant qu'une touche de direction reste appuyée
-        // Si une direction est demandée
-        for (unsigned int nPlayer = 0; nPlayer < this->m_Player.size(); nPlayer++ )
-        {
-
-            if ( this->m_CurDir[nPlayer] >= 0 && this->m_CurDir[nPlayer] <= 3 )
-            {
-                // A chaque fin de timer, relancer un autre timer (et ainsi de suite si le frame rate de l'appli est très lent)
-                while ( this->m_CurMoveTimer[nPlayer].IsTimerEnd() )
-                {
-                    switch ( this->m_CurDir[nPlayer] )
-                    {
-                    case CURDIR_UP:
-                        if (this->m_PanelGame.RequestCursorMoveUp( this->m_Player[nPlayer] ))
-                        {
-                            // son
-                            this->m_ThisFrameEvent.AddEvent(GameEvents::EVT_CURSORMOVE);
-                        }
-                        break;
-                    case CURDIR_DOWN:
-                        if (this->m_PanelGame.RequestCursorMoveDown( this->m_Player[nPlayer] ))
-                        {
-                            // son
-                            this->m_ThisFrameEvent.AddEvent(GameEvents::EVT_CURSORMOVE);
-                        }
-                        break;
-                    case CURDIR_LEFT:
-                        if (this->m_PanelGame.RequestCursorMoveLeft( this->m_Player[nPlayer] ))
-                        {
-                            // son
-                            this->m_ThisFrameEvent.AddEvent(GameEvents::EVT_CURSORMOVE);
-                        }
-                        break;
-                    case CURDIR_RIGHT:
-                        if (this->m_PanelGame.RequestCursorMoveRight( this->m_Player[nPlayer] ))
-                        {
-                            //son
-                            this->m_ThisFrameEvent.AddEvent(GameEvents::EVT_CURSORMOVE);
-                        }
-                        break;
-                    default:
-                        // rien ! impossible d'arriver là, mais c'est juste pour pas que les warnings m'embêtent :)
-                        break;
-                    }
-
-                    this->m_CurMoveTimer[nPlayer].Restart( this->m_CurMoveTimer[nPlayer].GetOvertime() );
-                    this->m_CurMoveTimer[nPlayer].SetLength(20);
-                }
-            }
-        }
-    }
-
-
     // Everything else depends on the status of the game
     switch (this->GetGameStatus())
     {
@@ -185,11 +128,9 @@ bool GameState::Play(long p_Delta)
 
                 while(this->m_SDL.input().SPPollEvent(event))
                 {
-                    // On peut faire pause durant l'intro
-                    // Quand on fait pause pendant l'intro, le timer de l'intro n'est pas écoulé
                     if (event.IsPressEvent() && (event.GetActionNumber() == C_Actions::PAUSE || event.GetActionNumber() == C_Actions::MENUCANCEL ) ) // TODO:Executed two times. Give priority to one player or find something else...
                     {
-                        this->SetGameStatus(GameState::GAME_PAUSED); // Mettre la musique sur pause
+                        this->SetGameStatus(GameState::GAME_PAUSED);
                         m_SDL.audio().PauseCurrentMusic();
                         this->PauseAnimationTimers();
                     }
@@ -222,18 +163,16 @@ bool GameState::Play(long p_Delta)
                                 {
                                     case GameState::MENU_CONTINUE:
                                     {
-                                        // Retourner au statut de jeu précédent la pause
                                         this->GoToPreviousGameStatus();
                                         this->ResumeAnimationTimers();
 
                                         if ( this->GetPreviousGameStatus() == GameState::GAME_INTRO )
                                         {
-                                            // On a fait pause pendant l'intro
                                             this->m_TempStatusTimer.ResumeTimer();
                                         }
                                         else
                                         {
-                                            m_SDL.audio().ResumeCurrentMusic(); // Relancer la musique
+                                            m_SDL.audio().ResumeCurrentMusic();
                                         }
 
                                     }
@@ -247,7 +186,7 @@ bool GameState::Play(long p_Delta)
                                 break;
                             case C_Actions::MENUCANCEL:
                             case C_Actions::PAUSE:
-                                this->m_PauseMenu.SelectEntry(GameState::MENU_CONTINUE);
+                                this->m_PauseMenu.JumpToEntry(GameState::MENU_CONTINUE);
                                 break;
                         }
                     }
@@ -257,6 +196,47 @@ bool GameState::Play(long p_Delta)
 
         case GameState::GAME_PLAYING:
             {
+                // Cursor move repetition
+                for (unsigned int nPlayer = 0; nPlayer < this->m_Player.size(); nPlayer++ )
+                {
+
+                    if ( this->m_CurDir[nPlayer] >= 0 && this->m_CurDir[nPlayer] <= 3 )
+                    {
+                        while ( this->m_CurMoveTimer[nPlayer].IsTimerEnd() )
+                        {
+                            bool cursorHasMoved = false;
+
+                            switch ( this->m_CurDir[nPlayer] )
+                            {
+                            case CURDIR_UP:
+                                cursorHasMoved = this->m_PanelGame.RequestCursorMoveUp( this->m_Player[nPlayer] );
+                                break;
+                            case CURDIR_DOWN:
+                                cursorHasMoved = this->m_PanelGame.RequestCursorMoveDown( this->m_Player[nPlayer] );
+                                break;
+                            case CURDIR_LEFT:
+                                cursorHasMoved = this->m_PanelGame.RequestCursorMoveLeft( this->m_Player[nPlayer] );
+                                break;
+                            case CURDIR_RIGHT:
+                                cursorHasMoved = this->m_PanelGame.RequestCursorMoveRight( this->m_Player[nPlayer] );
+                                break;
+                            default:
+                                // this case is here just to clear up a compiler warning
+                                break;
+                            }
+
+                            this->m_CurMoveTimer[nPlayer].Restart( this->m_CurMoveTimer[nPlayer].GetOvertime() );
+                            this->m_CurMoveTimer[nPlayer].SetLength(20);
+
+                            if (cursorHasMoved)
+                            {
+                                this->m_ThisFrameEvent.AddEvent(GameEvents::EVT_CURSORMOVE);
+                            }
+                        }
+                    }
+                }
+
+                // Player input events
                 SPEvent event;
 
                 while(this->m_SDL.input().SPPollEvent(event))
@@ -264,12 +244,14 @@ bool GameState::Play(long p_Delta)
                     if (event.IsPressEvent() && (event.GetPlayerNumber() <= m_Player.size()) ) // Key Down + filter out non active players
                     {
                         int playerArrayId = event.GetPlayerNumber() - 1;
+                        bool cursorHasMoved = false;
+
                         switch(event.GetActionNumber())
                         {
                             case C_Actions::PAUSE:
                             case C_Actions::MENUCANCEL:
                                 // Pause action gets priority
-                                this->SetGameStatus(GameState::GAME_PAUSED); // Mettre la musique sur pause
+                                this->SetGameStatus(GameState::GAME_PAUSED);
                                 m_SDL.audio().PauseCurrentMusic();
                                 this->PauseAnimationTimers();
                                 break;
@@ -277,40 +259,28 @@ bool GameState::Play(long p_Delta)
                                 if ( this->m_PanelGame.RequestCursorMoveUp( this->m_Player[playerArrayId] ) )
                                 {
                                     this->m_CurDir[playerArrayId] = CURDIR_UP;
-                                    this->m_CurMoveTimer[playerArrayId].SetLength(200);
-                                    this->m_CurMoveTimer[playerArrayId].Restart();
-                                    // son
-                                    this->m_ThisFrameEvent.AddEvent(GameEvents::EVT_CURSORMOVE);
+                                    cursorHasMoved = true;
                                 }
                                 break;
                             case C_Actions::DOWN:
                                 if (this->m_PanelGame.RequestCursorMoveDown( this->m_Player[playerArrayId] ))
                                 {
                                     this->m_CurDir[playerArrayId] = CURDIR_DOWN;
-                                    this->m_CurMoveTimer[playerArrayId].SetLength(200);
-                                    this->m_CurMoveTimer[playerArrayId].Restart();
-                                    // son
-                                    this->m_ThisFrameEvent.AddEvent(GameEvents::EVT_CURSORMOVE);
+                                    cursorHasMoved = true;
                                 }
                                 break;
                             case C_Actions::LEFT:
                                 if (this->m_PanelGame.RequestCursorMoveLeft( this->m_Player[playerArrayId] ))
                                 {
                                     this->m_CurDir[playerArrayId] = CURDIR_LEFT;
-                                    this->m_CurMoveTimer[playerArrayId].SetLength(200);
-                                    this->m_CurMoveTimer[playerArrayId].Restart();
-                                    // son
-                                    this->m_ThisFrameEvent.AddEvent(GameEvents::EVT_CURSORMOVE);
+                                    cursorHasMoved = true;
                                 }
                                 break;
                             case C_Actions::RIGHT:
                                 if (this->m_PanelGame.RequestCursorMoveRight( this->m_Player[playerArrayId] ))
                                 {
                                     this->m_CurDir[playerArrayId] = CURDIR_RIGHT;
-                                    this->m_CurMoveTimer[playerArrayId].SetLength(200);
-                                    this->m_CurMoveTimer[playerArrayId].Restart();
-                                    // son
-                                    this->m_ThisFrameEvent.AddEvent(GameEvents::EVT_CURSORMOVE);
+                                    cursorHasMoved = true;
                                 }
                                 break;
                             case C_Actions::SWAP:
@@ -323,6 +293,14 @@ bool GameState::Play(long p_Delta)
                                 this->m_PanelGame.RequestFieldRise( this->m_Player[playerArrayId] );
                                 break;
                         }
+
+                        if (cursorHasMoved)
+                        {
+                            this->m_CurMoveTimer[playerArrayId].SetLength(200);
+                            this->m_CurMoveTimer[playerArrayId].Restart();
+                            this->m_ThisFrameEvent.AddEvent(GameEvents::EVT_CURSORMOVE);
+                        }
+
                     }
                     else // Key Up
                     {
@@ -368,7 +346,6 @@ bool GameState::Play(long p_Delta)
         break;
 
         case GameState::GAME_FINISHED:
-            // Définition du gagnant
         break;
 
         case GameState::GAME_OUTRO:
@@ -395,18 +372,16 @@ bool GameState::Play(long p_Delta)
                                 {
                                     case GameState::MENU_CONTINUE:
                                     {
-                                        // Retourner au statut de jeu précédent la pause
                                         this->GoToPreviousGameStatus();
                                         this->ResumeAnimationTimers();
 
                                         if ( this->GetPreviousGameStatus() == GameState::GAME_INTRO )
                                         {
-                                            // On a fait pause pendant l'intro
                                             this->m_TempStatusTimer.ResumeTimer();
                                         }
                                         else
                                         {
-                                            m_SDL.audio().ResumeCurrentMusic(); // Relancer la musique
+                                            m_SDL.audio().ResumeCurrentMusic();
                                         }
 
                                     }
@@ -420,7 +395,7 @@ bool GameState::Play(long p_Delta)
                                 break;
                             case C_Actions::MENUCANCEL:
                             case C_Actions::PAUSE:
-                                this->m_PauseMenu.SelectEntry(GameState::MENU_QUIT);
+                                this->m_PauseMenu.JumpToEntry(GameState::MENU_QUIT);
                                 break;
                         }
                     }
@@ -429,7 +404,6 @@ bool GameState::Play(long p_Delta)
         break;
 
         case GameState::GAME_FADEOUT:
-            // Pas de contrôle durant le fondu
         break;
 
     }
@@ -448,7 +422,6 @@ bool GameState::Play(long p_Delta)
     switch (this->GetGameStatus())
     {
         case GameState::GAME_FADEIN:
-            // Pas de contrôle durant le fondu
             if ( m_Fader.isFadingDone() )
             {
                 this->SetGameStatus(GameState::GAME_INTRO);
@@ -458,7 +431,6 @@ bool GameState::Play(long p_Delta)
         break;
 
         case GameState::GAME_INTRO:
-            // On peut faire pause durant l'intro
             if ( this->m_TempStatusTimer.IsTimerEnd() )
             {
                 this->SetGameStatus(GameState::GAME_PLAYING);
@@ -466,15 +438,13 @@ bool GameState::Play(long p_Delta)
         break;
 
         case GameState::GAME_PAUSED:
-            // Rien d'automatisé à faire
 
         break;
 
         case GameState::GAME_PLAYING:
-            // Mise à jour du décompte en début de partie
+            // Starting countdown
             if ( !this->m_Countdown.IsTimerEnd() )
             {
-                // la seconde 0 doit être décomptée
                 if (this->m_Countdown.GetElapsed() == 0)
                 {
                     this->m_ThisFrameEvent.AddEvent(GameEvents::EVT_COUNTDOWN);
@@ -484,7 +454,6 @@ bool GameState::Play(long p_Delta)
 
                 if ( m_Countdown.HasPeriodPassed() )
                 {
-                    // la seconde 0 doit être décomptée
                     if (this->m_Countdown.GetElapsed() < 3000)
                     {
                         this->m_ThisFrameEvent.AddEvent(GameEvents::EVT_COUNTDOWN);
@@ -502,12 +471,10 @@ bool GameState::Play(long p_Delta)
                     this->m_ThisFrameEvent.AddEvent(GameEvents::EVT_COUNTEND);
                 }
 
-                // Mise à jour de la logique du jeu
                 if (!m_IsFrameAdvance)
                 {
                     for (unsigned int nPlayer = 0; nPlayer < this->m_Player.size(); nPlayer++ )
                     {
-                        // On ne met à jour le joueur que s'il n'a pas fait Game Over...
                         if (this->m_Player[nPlayer].GetStatus() == Player::PLAYER_STAT_PLAYING )
                         {
                             this->m_PanelGame.UpdateGameLogic(this->m_Player[nPlayer], p_Delta, this->m_ThisFrameEvent, m_MatchSettings);
@@ -527,12 +494,20 @@ bool GameState::Play(long p_Delta)
                 }
 
 
-                // Définir si le jeu est terminé
-                // S'il y a plus d'un joueur, il y a différentes conditions de victoire
-                if (this->m_Player.size() > 1)
+                // Find out if game is over
+                if (this->m_Player.size() == 1)
                 {
+                    // S'il n'y a qu'un joueur, il y a juste a vérifier que le temps soit écoulé ou que le joueur ait perdu
+                    if ( this->m_Player[0].GetStatus() != Player::PLAYER_STAT_PLAYING )
+                    {
+                        bMadeGameFinished = true;
+                    }
+                }
+                else
+                {
+                    // In multiplayer there are different victory conditions
                     int nbSurvivants = 0;
-                    // Vérifier que tous les autres joueurs aient été vaincus
+                    // Who remains in the game
                     for (unsigned int nPlayer = 0; nPlayer < this->m_Player.size(); nPlayer++ )
                     {
                         if ( this->m_Player[nPlayer].GetStatus() == Player::PLAYER_STAT_PLAYING )
@@ -545,15 +520,15 @@ bool GameState::Play(long p_Delta)
                     {
                     case 0:
                         {
-                            // Deux cas possibles :
-                            // 1) Egalité (tout le monde a perdu en même temps)
-                            // 2) Le temps est écoulé, il faut calculer en fonction des scores
+                            // 2 possible cases:
+                            // 1) Draw, because everyone lost at the same time
+                            // 2) time is up, winner is calculated based on score
 
                             long tmpHiScore = 0;
 
                             for (unsigned int nPlayer = 0; nPlayer < this->m_Player.size(); nPlayer++ )
                             {
-                                // Les scores des personnes ayant perdu ne sont pas pris en compte
+                                // Only account for scores of players who timed out
                                 if ( this->m_Player[nPlayer].GetStatus() == Player::PLAYER_STAT_ENDTIMER )
                                 {
                                     if (this->m_Player[nPlayer].GetScore() > tmpHiScore )
@@ -563,15 +538,14 @@ bool GameState::Play(long p_Delta)
                                     }
                                     else if ( (this->m_Player[nPlayer].GetScore() == tmpHiScore) && (tmpHiScore > 0) )
                                     {
-                                        // 2 scores identiques : 2 joueurs sont ex-aequo, on considère que c'est une égalité
-                                        // à moins de tomber sur un score plus élevé dans la suite de la liste
+                                        // 2 identical scores. It's a draw unless beat by a later player
                                         this->m_MatchWinner = GameState::WINNER_DRAW;
                                     }
 
                                 }
                             }
 
-                            // Si aucun gagnant n'a été détecté alors qu'il n'y a aucun survivant, c'est que tout le monde a perdu en même temps : égalité
+                            // no winner was detected, and no-one is left playing. It means everyone lost at the same time. it's a draw
                             if (this->m_MatchWinner == GameState::WINNER_NONE)
                             {
                                 this->m_MatchWinner = GameState::WINNER_DRAW;
@@ -582,7 +556,7 @@ bool GameState::Play(long p_Delta)
 
                         break;
                     case 1:
-                        // Il ne reste qu'un joueur : retrouver le joueur victorieux
+                        // Only 1 player left, find out who it is
                         for (unsigned int nPlayer = 0; nPlayer < this->m_Player.size(); nPlayer++ )
                         {
                             if ( this->m_Player[nPlayer].GetStatus() == Player::PLAYER_STAT_PLAYING )
@@ -593,21 +567,19 @@ bool GameState::Play(long p_Delta)
 
                         break;
                     default:
-                        this->m_MatchWinner = GameState::WINNER_NONE; // Le jeu n'est pas encore terminé
+                        this->m_MatchWinner = GameState::WINNER_NONE;
                         break;
                     }
 
                     switch (this->m_MatchWinner)
                     {
                     case GameState::WINNER_DRAW:
-                        // égalité
                         this->SetGameStatus(GameState::GAME_FINISHED);
                         break;
                     case GameState::WINNER_NONE:
-                        // Le jeu n'est pas encore terminé
                         break;
                     default:
-                        // interrompre la partie du joueur restant
+                        // end remaining player's game
                         this->m_Player[this->m_MatchWinner].SetStatus(Player::PLAYER_STAT_VICTORY);
                         bMadeGameFinished = true;
                         break;
@@ -615,14 +587,7 @@ bool GameState::Play(long p_Delta)
                     }
 
                 }
-                else
-                {
-                    // S'il n'y a qu'un joueur, il y a juste a vérifier que le temps soit écoulé ou que le joueur ait perdu
-                    if ( this->m_Player[0].GetStatus() != Player::PLAYER_STAT_PLAYING )
-                    {
-                        bMadeGameFinished = true;
-                    }
-                }
+
 
                 if (bMadeGameFinished)
                 {
@@ -644,12 +609,9 @@ bool GameState::Play(long p_Delta)
         break;
 
         case GameState::GAME_OUTRO:
-            // Rien d'automatisé à faire
-
         break;
 
         case GameState::GAME_FADEOUT:
-            // Pas de contrôle durant le fondu
             if ( this->m_Fader.isFadingDone() )
             {
                 return false;
@@ -679,6 +641,7 @@ bool GameState::Play(long p_Delta)
 
 bool GameState::Frame()
 {
+    // TODO: refactor this
     m_SDL.window().EmptyFrame();
 
     int ScreenW = m_SDL.window().GetWidth();
@@ -1544,7 +1507,7 @@ void GameState::RenderGUI(int p_NumPlayers)
 
         }
 
-        // Dessiner les points de vie du joueur
+        // Lifebar
         float timerPc = ThisPlayer.GetField().GetFieldResistanceTimer().GetElapsedPc();
         if (timerPc > 1.0000)
         {
@@ -1554,9 +1517,7 @@ void GameState::RenderGUI(int p_NumPlayers)
         DrawX = xStart;
         DrawY = yStart - 32;
 
-        // Partie verte
         m_SDL.window().DrawSquare(DrawX, DrawY, wLifeBar, 16, 128, 255, 128, 255);
-        // Partie rouge
         m_SDL.window().DrawSquare(DrawX+wLifeBar, DrawY, 6.f*32.f - wLifeBar, 16, 255, 128, 128, 255);
 
 
@@ -1663,10 +1624,10 @@ void GameState::RenderMenu(int p_MenuType)
 
     if ( this->GetGameStatus() == GameState::GAME_OUTRO || this->GetGameStatus() == GameState::GAME_PAUSED )
     {
-        // Assombirir l'écran et indiquer le marqueur "Pause" si le jeu est en pause
+        // Darken screen and display "Pause"
         if ( this->GetGameStatus() == GameState::GAME_PAUSED )
         {
-            m_SDL.window().DrawSquare(0, 0, 640, 480, 0, 0, 0, 128);
+            m_SDL.window().DrawSquare(0, 0, C_WindowSize::WIDTH, C_WindowSize::HEIGHT, 0, 0, 0, 128);
             // Pause message
             this->m_StrBufMenuElements[GUI_PAUSEMESSAGE].RenderToWindow(m_SDL.window(), 320, 120, SPTexture::RENDER_FROMCENTER);
             // Help text
@@ -1692,36 +1653,36 @@ bool GameState::LoadResources()
 
     // Text
     this->m_TextRenderer.LoadFont("./fonts/armandc-ascii-font-8.png", 8, 8);
-    this->m_FontMenu.LoadFont("./fonts/BubblegumSans-Regular.otf", C_FontProps::SMALLFONTHEIGHT);
-    this->m_FontGUI.LoadFont("./fonts/BubblegumSans-Regular.otf", C_FontProps::MEDIUMFONTHEIGHT);
+    this->m_FontMenu.LoadFont("./fonts/BubblegumSans-Regular.otf", C_FontProperties::SMALLFONTHEIGHT);
+    this->m_FontGUI.LoadFont("./fonts/BubblegumSans-Regular.otf", C_FontProperties::MEDIUMFONTHEIGHT);
 
     // Game GUI
     // Game labels
-    this->m_StrBufGameElements[GUI_TIME].SetColor(C_FontProps::TITLEFONTR, C_FontProps::TITLEFONTG, C_FontProps::TITLEFONTB);
+    this->m_StrBufGameElements[GUI_TIME].SetColor(C_FontProperties::TITLEFONTR, C_FontProperties::TITLEFONTG, C_FontProperties::TITLEFONTB);
     this->m_StrBufGameElements[GUI_TIME].RasterizeString("Time", this->m_FontGUI);
-    this->m_StrBufGameElements[GUI_SCORE].SetColor(C_FontProps::TITLEFONTR, C_FontProps::TITLEFONTG, C_FontProps::TITLEFONTB);
+    this->m_StrBufGameElements[GUI_SCORE].SetColor(C_FontProperties::TITLEFONTR, C_FontProperties::TITLEFONTG, C_FontProperties::TITLEFONTB);
     this->m_StrBufGameElements[GUI_SCORE].RasterizeString("Score", this->m_FontGUI);
-    this->m_StrBufGameElements[GUI_DIFFICULTY].SetColor(C_FontProps::TITLEFONTR, C_FontProps::TITLEFONTG, C_FontProps::TITLEFONTB);
+    this->m_StrBufGameElements[GUI_DIFFICULTY].SetColor(C_FontProperties::TITLEFONTR, C_FontProperties::TITLEFONTG, C_FontProperties::TITLEFONTB);
     this->m_StrBufGameElements[GUI_DIFFICULTY].RasterizeString("Difficulty", this->m_FontGUI);
-    this->m_StrBufGameElements[GUI_STACKSPEED].SetColor(C_FontProps::TITLEFONTR, C_FontProps::TITLEFONTG, C_FontProps::TITLEFONTB);
+    this->m_StrBufGameElements[GUI_STACKSPEED].SetColor(C_FontProperties::TITLEFONTR, C_FontProperties::TITLEFONTG, C_FontProperties::TITLEFONTB);
     this->m_StrBufGameElements[GUI_STACKSPEED].RasterizeString("Stack Speed", this->m_FontGUI);
-    this->m_StrBufGameElements[GUI_ENDTITLE].SetColor(C_FontProps::TITLEFONTR, C_FontProps::TITLEFONTG, C_FontProps::TITLEFONTB);
+    this->m_StrBufGameElements[GUI_ENDTITLE].SetColor(C_FontProperties::TITLEFONTR, C_FontProperties::TITLEFONTG, C_FontProperties::TITLEFONTB);
     this->m_StrBufGameElements[GUI_ENDTITLE].RasterizeString("Game Over !", this->m_FontGUI);
-    this->m_StrBufGameElements[GUI_ENDMESSAGE].SetColor(C_FontProps::TITLEFONTR, C_FontProps::TITLEFONTG, C_FontProps::TITLEFONTB);
-    this->m_StrBufGameElements[GUI_ENDMESSAGE].RasterizeString("End message", this->m_FontGUI);
+    this->m_StrBufGameElements[GUI_ENDMESSAGE].SetColor(C_FontProperties::TITLEFONTR, C_FontProperties::TITLEFONTG, C_FontProperties::TITLEFONTB);
+    this->m_StrBufGameElements[GUI_ENDMESSAGE].RasterizeString("*End message*", this->m_FontGUI);
     // Game values
-    this->m_StrBufGameValues[GUI_TIME].SetColor(C_FontProps::VALUEFONTR, C_FontProps::VALUEFONTG, C_FontProps::VALUEFONTB);
-    this->m_StrBufGameValues[GUI_SCORE].SetColor(C_FontProps::VALUEFONTR, C_FontProps::VALUEFONTG, C_FontProps::VALUEFONTB);
-    this->m_StrBufGameValues[GUI_DIFFICULTY].SetColor(C_FontProps::VALUEFONTR, C_FontProps::VALUEFONTG, C_FontProps::VALUEFONTB);
-    this->m_StrBufGameValues[GUI_STACKSPEED].SetColor(C_FontProps::VALUEFONTR, C_FontProps::VALUEFONTG, C_FontProps::VALUEFONTB);
+    this->m_StrBufGameValues[GUI_TIME].SetColor(C_FontProperties::VALUEFONTR, C_FontProperties::VALUEFONTG, C_FontProperties::VALUEFONTB);
+    this->m_StrBufGameValues[GUI_SCORE].SetColor(C_FontProperties::VALUEFONTR, C_FontProperties::VALUEFONTG, C_FontProperties::VALUEFONTB);
+    this->m_StrBufGameValues[GUI_DIFFICULTY].SetColor(C_FontProperties::VALUEFONTR, C_FontProperties::VALUEFONTG, C_FontProperties::VALUEFONTB);
+    this->m_StrBufGameValues[GUI_STACKSPEED].SetColor(C_FontProperties::VALUEFONTR, C_FontProperties::VALUEFONTG, C_FontProperties::VALUEFONTB);
 
     // Pause GUI
     // Pause message
-    this->m_StrBufMenuElements[GUI_PAUSEMESSAGE].SetColor(C_FontProps::TITLEFONTR, C_FontProps::TITLEFONTG, C_FontProps::TITLEFONTB);
-    this->m_StrBufMenuElements[GUI_PAUSEMESSAGE].RasterizeString("- PAUSE -", this->m_FontGUI);
+    this->m_StrBufMenuElements[GUI_PAUSEMESSAGE].SetColor(C_FontProperties::TITLEFONTR, C_FontProperties::TITLEFONTG, C_FontProperties::TITLEFONTB);
+    this->m_StrBufMenuElements[GUI_PAUSEMESSAGE].RasterizeString("PAUSE", this->m_FontGUI);
     // Pause menu
     this->m_PauseMenu.SetMenuWidth(224);
-    this->m_PauseMenu.AddMenuEntry("Continue playing", MenuControl::TYPE_VALIDATOR);
+    this->m_PauseMenu.AddMenuEntry("Continue", MenuControl::TYPE_VALIDATOR);
     this->m_PauseMenu.AddMenuEntry("Exit to menu", MenuControl::TYPE_VALIDATOR);
     // Pause help text
     this->m_HelpText.SetScrollerSpeed(80);
@@ -1752,7 +1713,7 @@ bool GameState::LoadResources()
                         + SDL_GetKeyName(m_Controls.p2_Pause) + " : Pause";
     }
 
-    this->m_HelpText.SetString(tmpStringHelp, this->m_FontMenu, C_FontProps::MENUELTFONTR, C_FontProps::MENUELTFONTG, C_FontProps::MENUELTFONTB);
+    this->m_HelpText.SetString(tmpStringHelp, this->m_FontMenu, C_FontProperties::MENUELTFONTR, C_FontProperties::MENUELTFONTG, C_FontProperties::MENUELTFONTB);
 
     return true;
 }

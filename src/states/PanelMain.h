@@ -3,16 +3,6 @@
 
 #include <string>
 #include <iostream>
-
-#ifdef GP2X
-    #define DISP_BPP 24
-#else
-    #define DISP_BPP 32
-#endif
-
-#include <SDL/SDL.h>
-#include <SDL/SDL_ttf.h>
-
 #include "SPEngine/spsdl/SPSDL.h"
 #include "SPEngine/spsdl/SPBaseState.h"
 #include "LogoState.h"

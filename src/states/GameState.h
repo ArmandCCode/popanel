@@ -48,10 +48,9 @@ class GameState : public SPGameState
         SPTextureMger m_texList;
         SPAsciiBMP m_TextRenderer;
 
-        SPTTFFont m_FontMenu; // Taille "normale"
-        SPTTFFont m_FontGUI; // Gros caractères
+        SPTTFFont m_FontMenu;
+        SPTTFFont m_FontGUI;
 
-        // Elements d'interface
         // Game interface
         std::vector<SPStringBuffer> m_StrBufGameElements;
         std::vector<SPStringBuffer> m_StrBufGameValues;
@@ -79,11 +78,11 @@ class GameState : public SPGameState
         // IsPanic, for music
         bool m_isPanicMusic;
 
-        // Timer pour la répétition des déplacements
+        // Timer for cursor move repetition
         std::vector<SPTimer> m_CurMoveTimer;
         std::vector<int> m_CurDir;
 
-        // Décompte avant début de partie
+        // Starting countdown
         ManualTimer m_Countdown;
 
         // Animation timers
@@ -101,7 +100,7 @@ class GameState : public SPGameState
         // Temporary status timer
         SPTimer m_TempStatusTimer;
 
-        // Debug : activer une mise à jour frame de 10Ms par 10Ms
+        // Debug : updates game by increments of 10 ms
         bool m_IsFrameAdvance;
 
         // Game status management
@@ -124,13 +123,11 @@ class GameState : public SPGameState
         static const int WINNER_NONE = -1; // Pas encore terminé
         static const int WINNER_DRAW = -2;
 
-        // Evènements sonores
+        // Sound events
         GameEvents m_ThisFrameEvent;
 
-        // Fondu
         FaderColor m_Fader;
 
-        // Refactoring : fonctions de rendu séparées pour simplifier la lecture
         void RenderBackground(int p_NumPlayers);
         void RenderGameField(int p_XStart, int p_YStart, Player& ThisPlayer);
         void RenderGUI(int p_NumPlayers);
